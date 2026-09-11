@@ -57,7 +57,7 @@
     <div id="cloudStatusBanner" class="bg-stone-900 border border-stone-800 rounded-xl px-4 py-3 flex items-center justify-between text-xs shadow-md">
       <div class="flex items-center space-x-2 text-stone-400">
         <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-        <span>ક્લાઉડ ડેટાબેઝ (Firebase): <strong class="text-emerald-400">કનેક્ટેડ અને સક્રિય</strong></span>
+        <span>ક્લાઉડ ડેટાબેઝ (Firebase Firestore): <strong class="text-emerald-400">કનેક્ટેડ અને સક્રિય</strong></span>
       </div>
       <div id="activeUserBadge" class="hidden text-amber-300 font-mono bg-stone-950 px-2.5 py-1 rounded-lg border border-stone-800"></div>
     </div>
@@ -418,7 +418,7 @@
 
         <div class="space-y-1">
           <label class="text-xs text-stone-400 gujarati-text">એડમિન પાસવર્ડ (Password)</label>
-          <input type="password" id="adminPass" required value="vijay321" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2.5 text-xs text-stone-200 focus:border-rose-500 font-mono">
+          <input type="text" id="adminPass" required value="vijay321" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2.5 text-xs text-stone-200 focus:border-rose-500 font-mono">
         </div>
 
         <button type="submit" class="w-full py-3 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-xs transition shadow gujarati-text">
@@ -471,10 +471,9 @@
 
     let app, auth, db;
     let profiles = [];
-    let currentSession = null; // { role: 'guest'|'member'|'admin', name, phone }
+    let currentSession = null; 
     let uploadedImages = { 1: '', 2: '', 3: '' };
 
-    // 5 Seed Profiles
     const seedProfiles = [
       {
         id: 'praj_demo_1',
@@ -639,21 +638,21 @@
 
     async function fetchProfilesFromCloud() {
       try {
-        const querySnapshot = await getDocs(collection(db, "artifacts", "prajapati-matrimony-1", "public", "data", "profiles"));
+        const querySnapshot = await getDocs(collection(db, "prajapati_profiles"));
         if (querySnapshot.empty) {
           for (let p of seedProfiles) {
-            await setDoc(doc(db, "artifacts", "prajapati-matrimony-1", "public", "data", "profiles", p.id), p);
+            await setDoc(doc(db, "prajapati_profiles", p.id), p);
           }
           profiles = [...seedProfiles];
         } else {
           profiles = [];
-          querySnapshot.forEach((doc) => {
-            profiles.push(doc.data());
+          querySnapshot.forEach((docSnap) => {
+            profiles.push(docSnap.data());
           });
         }
         renderProfiles(profiles);
       } catch (err) {
-        console.error("Error fetching profiles:", err);
+        console.error("Error fetching profiles from cloud:", err);
         loadLocalFallback();
       }
     }
@@ -755,11 +754,11 @@
 
       try {
         if (db) {
-          await setDoc(doc(db, "artifacts", "prajapati-matrimony-1", "public", "data", "profiles", newProfile.id), newProfile);
+          await setDoc(doc(db, "prajapati_profiles", newProfile.id), newProfile);
         }
         profiles.unshift(newProfile);
         localStorage.setItem('prajapati_profiles', JSON.stringify(profiles));
-        showToast('તમારો બાયોડેટા સફળતાપૂર્વક સબમિટ થઈ ગયો છે!');
+        showToast('તમારો બાયોડેટા સફળતાપૂર્વક ક્લાઉડ ડેટાબેઝમાં સેવ થઈ ગયો છે!');
         form.reset();
         uploadedImages = { 1: '', 2: '', 3: '' };
         for(let i=1; i<=3; i++) {
@@ -770,7 +769,7 @@
         renderProfiles(profiles);
       } catch (err) {
         console.error("Save error:", err);
-        showToast('સબમિટ કરવામાં ભૂલ આવી.');
+        showToast('બાયોડેટા સેવ કરવામાં ભૂલ આવી.');
       }
     }
 
@@ -900,7 +899,7 @@
       if (user === 'admin' && pass === 'vijay321') {
         currentSession = {
           role: 'admin',
-          name: 'સમજ એડમિન (Vijay)',
+          name: 'સમાજ એડમિન (Vijay)',
           phone: 'Admin'
         };
         updateAuthUI();
@@ -916,7 +915,7 @@
       currentSession = null;
       updateAuthUI();
       renderProfiles(profiles);
-      showToast('લોગ આઉટ સફળ.');
+      showToast('લૉગઆઉટ સફળ.');
     }
 
     function updateAuthUI() {
@@ -1083,7 +1082,7 @@
       if (!confirm('શું તમે ખરેખર આ બાયોડેટા ડિલીટ કરવા માંગો છો?')) return;
       try {
         if (db) {
-          await deleteDoc(doc(db, "artifacts", "prajapati-matrimony-1", "public", "data", "profiles", id));
+          await deleteDoc(doc(db, "prajapati_profiles", id));
         }
         profiles = profiles.filter(p => p.id !== id);
         localStorage.setItem('prajapati_profiles', JSON.stringify(profiles));
