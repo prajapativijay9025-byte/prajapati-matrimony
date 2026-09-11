@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Prajapati Matrimony - Global Cloud Portal & Biodata Matches</title>
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Phosphor Icons CDN -->
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -816,36 +815,19 @@
     import { getFirestore, doc, setDoc, updateDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
     const appId = typeof __app_id !== 'undefined' ? __app_id : 'prajapati-matrimony-1';
-    let firebaseConfig = {
-		  apiKey: "AIzaSyBMl_SRFpPdnPnh6sjzdbwbJEfUdxuuwFw",
-		  authDomain: "prajapati-matrimony-1.firebaseapp.com",
-		  projectId: "prajapati-matrimony-1",
-		  storageBucket: "prajapati-matrimony-1.firebasestorage.app",
-		  messagingSenderId: "549815639052",
-		  appId: "1:549815639052:web:0df07805b0e16f17466229",
-		  measurementId: "G-JMJC0DJ3H5"
-		};
-    try {
-      const rawFirebaseConfig = typeof __firebase_config !== 'undefined' ? __firebase_config : '{}';
-      firebaseConfig = JSON.parse(rawFirebaseConfig);
-    } catch (e) {
-      console.warn('Using fallback configuration');
-    }
-
-    if (!firebaseConfig.projectId) {
-      firebaseConfig = {
-        apiKey: "AIzaSyD-PlaceholderKeyForGitHubPages",
-        authDomain: "prajapati-matrimony-1.firebaseapp.com",
-        projectId: "prajapati-matrimony-1",
-        storageBucket: "prajapati-matrimony-1.appspot.com",
-        messagingSenderId: "123456789",
-        appId: "1:123:web:abc"
-      };
-    }
+    
+    // Config provided by user for Firebase project 'prajapati-matrimony-1'
+    const firebaseConfig = {
+      apiKey: "AIzaSyBMl_SRFpPdnPnh6sjzdbwbJEfUdxuuwFw",
+      authDomain: "prajapati-matrimony-1.firebaseapp.com",
+      projectId: "prajapati-matrimony-1",
+      storageBucket: "prajapati-matrimony-1.firebasestorage.app",
+      messagingSenderId: "549815639052",
+      appId: "1:549815639052:web:0df07805b0e16f17466229",
+      measurementId: "G-JMJC0DJ3H5"
+    };
 
     let app, auth, db;
-    let cloudActive = false;
-
     try {
       app = initializeApp(firebaseConfig);
       auth = getAuth(app);
