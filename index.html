@@ -1,822 +1,465 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="gu" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prajapati Matrimony - Global Cloud Portal & Biodata Matches</title>
+  <title>શ્રી પ્રજાપતિ સમાજ મેટ્રિમોની - Prajapati Matrimony</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Phosphor Icons CDN -->
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              50: '#fdf4f4',
-              100: '#fbe8e8',
-              500: '#c22d30',
-              600: '#a81e22',
-              700: '#891418',
-              800: '#721215',
-              900: '#5f1215'
-            },
-            accent: {
-              50: '#fffbeb',
-              100: '#fef3c7',
-              500: '#d97706',
-              600: '#b45309'
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    body {
-      font-family: 'Inter', sans-serif;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .blur-data {
-      filter: blur(5px);
-      user-select: none;
-      pointer-events: none;
-    }
-    .security-watermark-overlay {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      z-index: 30;
-    }
-    .watermark-text {
-      transform: rotate(-30deg);
-      font-weight: 800;
-      font-size: 13px;
-      color: rgba(185, 28, 28, 0.22);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      white-space: nowrap;
-      text-align: center;
-      line-height: 1.8;
-      user-select: none;
-    }
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #f1f1f1;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #d4a373;
-      border-radius: 4px;
-    }
+    body { font-family: 'Inter', 'Noto Sans Gujarati', sans-serif; }
+    .gujarati-text { font-family: 'Noto Sans Gujarati', sans-serif; }
   </style>
 </head>
-<body class="bg-stone-50 text-stone-800 antialiased min-h-screen flex flex-col">
+<body class="bg-stone-950 text-stone-100 min-h-screen flex flex-col selection:bg-amber-500 selection:text-stone-950">
 
-  <header class="bg-brand-700 text-white shadow-md sticky top-0 z-40">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center space-x-2.5">
-        <div class="w-10 h-10 rounded-full bg-amber-400 text-brand-900 flex items-center justify-center font-bold text-xl shadow-inner shrink-0">
-          <i class="ph-bold ph-heart-straight"></i>
+  <header class="sticky top-0 z-40 bg-stone-900/95 backdrop-blur border-b border-stone-800 shadow-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo & Title -->
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('explore')">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center shadow-lg text-stone-950 font-bold text-xl border border-amber-400/30">
+          <i class="ph-bold ph-heart"></i>
         </div>
         <div>
-          <h1 class="font-bold text-sm sm:text-lg leading-tight tracking-wide flex items-center gap-1.5">
-            <span>Prajapati Matrimony</span>
-            <span class="text-[9px] bg-brand-900 text-amber-300 font-semibold px-1 py-0.5 rounded border border-brand-600 hidden xs:inline">Cloud Global</span>
-          </h1>
-          <p class="text-[10px] sm:text-[11px] text-amber-200">શ્રી પ્રજાપતિ સમાજ મેટ્રિમોની પોર્ટલ</p>
+          <h1 class="text-base sm:text-lg font-bold tracking-tight text-amber-400 gujarati-text">શ્રી પ્રજાપતિ સમાજ મેટ્રિમોની</h1>
+          <p class="text-[11px] text-stone-400 uppercase tracking-widest font-mono">Prajapati Samaj Global Portal</p>
         </div>
       </div>
 
-      <div class="flex items-center space-x-2">
-        <div id="cloudSyncIndicator" class="hidden sm:flex items-center space-x-1.5 text-[11px] bg-brand-800/90 text-amber-200 px-2.5 py-1 rounded-full border border-brand-600/60 shadow-xs">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-          <span id="cloudSyncLabel">Cloud Syncing...</span>
-        </div>
-
-        <div id="authStatusContainer" class="flex items-center space-x-1.5">
-          <!-- Populated dynamically -->
-        </div>
-
-        <button id="openUploadBtn" class="bg-amber-500 hover:bg-amber-600 text-stone-900 font-semibold text-xs px-3.5 py-1.5 rounded-full flex items-center space-x-1.5 transition shadow shrink-0">
-          <i class="ph-bold ph-plus-circle text-sm"></i>
-          <span class="hidden sm:inline">+ બાયોડેટા ઉમેરો</span>
-          <span class="sm:hidden">+ ઉમેરો</span>
+      <!-- Navigation Actions -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <button onclick="switchTab('explore')" id="navExploreBtn" class="px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold bg-amber-500 text-stone-950 shadow transition flex items-center space-x-1.5">
+          <i class="ph-bold ph-users text-sm"></i>
+          <span class="hidden sm:inline">જીવંત બાયોડેટા</span>
         </button>
+
+        <button onclick="switchTab('register')" id="navRegisterBtn" class="px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold bg-stone-800 hover:bg-stone-700 text-stone-200 border border-stone-700 transition flex items-center space-x-1.5">
+          <i class="ph-bold ph-user-plus text-sm"></i>
+          <span class="hidden sm:inline">બાયોડેટા મુકો</span>
+        </button>
+
+        <!-- Auth Status Container -->
+        <div id="authHeaderZone">
+          <button onclick="openLoginModal()" class="px-3 sm:px-4 py-2 rounded-xl text-xs font-bold bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 transition flex items-center space-x-1.5">
+            <i class="ph-bold ph-sign-in text-sm"></i>
+            <span>સભ્ય લોગઈન</span>
+          </button>
+        </div>
       </div>
     </div>
   </header>
 
-  <div id="roleBanner" class="bg-amber-50 border-b border-amber-200 px-4 py-2.5 text-xs text-amber-900 transition">
-    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-      <div class="flex items-center space-x-2">
-        <i id="roleBannerIcon" class="ph-fill ph-lock-key text-amber-700 text-base shrink-0"></i>
-        <span id="roleBannerText">
-          <strong>Guest Mode:</strong> Candidate photos and names are visible. Sensitive contact phone numbers, native & family details require Member Login.
-        </span>
-      </div>
-      <div id="bannerActionContainer" class="flex items-center space-x-2 shrink-0 self-end sm:self-auto">
-        <button onclick="openMemberLoginModal()" class="bg-brand-700 hover:bg-brand-800 text-white font-medium text-xs px-3 py-1 rounded-lg shadow-sm">
-          Member Login (મોબાઈલ નં. + જન્મ વર્ષ)
-        </button>
-      </div>
-    </div>
-  </div>
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-  <main class="max-w-6xl mx-auto px-4 py-5 flex-1 w-full">
-    
-    <div id="adminControlBar" class="hidden mb-6 bg-purple-900 text-white p-4 rounded-xl shadow-md border border-purple-800">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div class="flex items-center space-x-2.5">
-          <div class="w-8 h-8 rounded-lg bg-purple-700 flex items-center justify-center text-amber-300">
-            <i class="ph-bold ph-shield-star text-lg"></i>
+    <!-- Cloud Status Banner -->
+    <div id="cloudStatusBanner" class="bg-stone-900 border border-stone-800 rounded-xl px-4 py-3 flex items-center justify-between text-xs shadow-md">
+      <div class="flex items-center space-x-2 text-stone-400">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>ક્લાઉડ ડેટાબેઝ: <strong class="text-emerald-400">સક્રિય અને કનેક્ટેડ</strong> (સર્વર સિંક ચાલુ છે)</span>
+      </div>
+      <div id="activeUserBadge" class="hidden text-amber-300 font-mono bg-stone-950 px-2.5 py-1 rounded-lg border border-stone-800"></div>
+    </div>
+
+    <!-- TAB 1: EXPLORE & FILTER PORTAL -->
+    <div id="tabExplore" class="space-y-6">
+      
+      <!-- Hero Banner -->
+      <div class="relative overflow-hidden bg-gradient-to-r from-stone-900 via-stone-900 to-amber-950/40 border border-stone-800 rounded-3xl p-6 sm:p-8 shadow-2xl">
+        <div class="relative z-10 max-w-2xl space-y-3">
+          <span class="px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-semibold border border-amber-500/20 inline-block gujarati-text">પ્રજાપતિ સમાજ અધિકૃત પાત્ર શોધ પ્લેટફોર્મ</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white gujarati-text">યોગ્ય જીવનસાથીની પસંદગી હવે સરળ અને સુરક્ષિત</h2>
+          <p class="text-xs sm:text-sm text-stone-400 gujarati-text">સમાજના વર અને કન્યાઓની પ્રમાણિત માહિતી સુરક્ષિત રીતે જુઓ. સભ્ય લોગઈન કર્યા બાદ જ ಸಂಪೂರ್ಣ વિગતો જોઈ શકાશે.</p>
+        </div>
+      </div>
+
+      <!-- Search & Filters Bar -->
+      <div class="bg-stone-900 border border-stone-800 rounded-2xl p-4 sm:p-5 shadow-xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        
+        <!-- Search Input -->
+        <div class="space-y-1">
+          <label class="text-[11px] font-semibold text-stone-400 uppercase tracking-wider gujarati-text">નામ / શિક્ષણ / વ્યવસાય શોધો</label>
+          <div class="relative">
+            <i class="ph-bold ph-magnifying-glass absolute left-3.5 top-3 text-stone-500"></i>
+            <input type="text" id="filterSearch" oninput="applyFilters()" placeholder="ઉદા. રમેશભાઈ, એન્જિનિયર..." class="w-full bg-stone-950 border border-stone-800 rounded-xl pl-10 pr-4 py-2.5 text-xs text-stone-200 focus:outline-none focus:border-amber-500 transition">
           </div>
-          <div>
-            <h3 class="font-bold text-sm leading-tight text-purple-100">Samaj Central Admin Panel</h3>
-            <p class="text-[11px] text-purple-300">Manage real-time global biodatas, member accounts & anti-leak monitoring</p>
+        </div>
+
+        <!-- Gender Filter -->
+        <div class="space-y-1">
+          <label class="text-[11px] font-semibold text-stone-400 uppercase tracking-wider gujarati-text">પાત્ર (વર / કન્યા)</label>
+          <select id="filterGender" onchange="applyFilters()" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2.5 text-xs text-stone-200 focus:outline-none focus:border-amber-500 transition gujarati-text">
+            <option value="">બધા પાત્રો (All)</option>
+            <option value="કન્યા">કન્યા (Bride)</option>
+            <option value="વર">વર (Groom)</option>
+          </select>
+        </div>
+
+        <!-- Native Place Filter -->
+        <div class="space-y-1">
+          <label class="text-[11px] font-semibold text-stone-400 uppercase tracking-wider gujarati-text">મૂળ વતન</label>
+          <input type="text" id="filterNative" oninput="applyFilters()" placeholder="ઉદા. મહેસાણા, અમદાવાદ..." class="w-full bg-stone-950 border border-stone-800 rounded-xl px-4 py-2.5 text-xs text-stone-200 focus:outline-none focus:border-amber-500 transition">
+        </div>
+
+        <!-- Reset Button -->
+        <div class="flex items-end">
+          <button onclick="resetFilters()" class="w-full py-2.5 bg-stone-800 hover:bg-stone-700 text-stone-300 font-semibold rounded-xl text-xs border border-stone-700 transition flex items-center justify-center space-x-1.5 gujarati-text">
+            <i class="ph-bold ph-arrow-counter-clockwise"></i>
+            <span>ફિલ્ટર રીસેટ કરો</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Profiles Grid -->
+      <div id="profilesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+
+    <!-- TAB 2: REGISTER / UPLOAD BIODATA FORM -->
+    <div id="tabRegister" class="hidden max-w-4xl mx-auto space-y-6">
+      <div class="bg-stone-900 border border-stone-800 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-8">
+        
+        <div class="border-b border-stone-800 pb-4 space-y-1">
+          <h2 class="text-xl sm:text-2xl font-bold text-white gujarati-text">નવો બાયોડેટા નોંધણી ફોર્મ</h2>
+          <p class="text-xs text-stone-400 gujarati-text">કૃપા કરીને નીચે આપેલી વિગતો સાચી રીતે ભરો જેથી સમાજના સભ્યો યોગ્ય સંપર્ક કરી શકે.</p>
+        </div>
+
+        <form id="biodataForm" onsubmit="handleBiodataSubmit(event)" class="space-y-8">
+          
+          <!-- Section 1: Personal Details -->
+          <div class="space-y-4">
+            <h3 class="text-sm font-bold text-amber-400 uppercase tracking-wider flex items-center space-x-2 gujarati-text border-l-2 border-amber-500 pl-3">
+              <span>૧. વ્યક્તિગત વિગતો (Personal Details)</span>
+            </h3>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="space-y-1">
+                <label class="text-xs text-stone-400 gujarati-text">પાત્રનો પ્રકાર *</label>
+                <select name="profileType" required class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500 gujarati-text">
+                  <option value="કન્યા">કન્યા (Bride)</option>
+                  <option value="વર">વર (Groom)</option>
+                </select>
+              </div>
+
+              <div class="sm:col-span-2 space-y-1">
+                <label class="text-xs text-stone-400 gujarati-text">પૂરું નામ (નામ અટક સાથે) *</label>
+                <input type="text" name="fullName" required placeholder="ઉદા. પ્રજાપતિ મિત્તલબેન રમેશભાઈ" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500 gujarati-text">
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-xs text-stone-400 gujarati-text">જન્મ તારીખ *</label>
+                <input type="date" name="dob" required onchange="calculateAge(this.value)" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-xs text-stone-400 gujarati-text">ઉંમર (વર્ષ) *</label>
+                <input type="number" id="inputAge" name="age" required placeholder="ઉદા. 24" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-xs text-stone-400 gujarati-text">જન્મ વર્ષ (પાસવર્ડ માટે) *</label>
+                <input type="number" name="birthYear" required placeholder="ઉદા. 2000" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+                <p class="text-[10px] text-amber-400/80 gujarati-text">આ તમારો સભ્ય લોગઈન પાસવર્ડ બનશે.</p>
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-xs text-stone-400 gujarati-text">શિક્ષણ *</label>
+                <input type="text" name="education" required placeholder="ઉદા. B.E. Civil / B.Sc / MBA" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-xs text-stone-400 gujarati-text">વ્યવસાય / નોકરી *</label>
+                <input type="text" name="occupation" required placeholder="ઉદા. Software Engineer / Business" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-xs text-stone-400 gujarati-text">માસિક આવક</label>
+                <input type="text" name="monthlyIncome" placeholder="ઉદા. ₹ 50,000 / મહિને" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-xs text-stone-400 gujarati-text">વૈવાહિક સ્થિતિ</label>
+                <select name="maritalStatus" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500 gujarati-text">
+                  <option value="અપરિણીત">અપરિણીત (Never Married)</option>
+                  <option value="છૂટાછેડા">છૂટાછેડા (Divorced)</option>
+                  <option value="વિધવા / વિધુર">વિધવા / વિધુર (Widow/Widower)</option>
+                </select>
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-xs text-stone-400 gujarati-text">જાતિ / જ્ઞાતિ શાખા</label>
+                <input type="text" name="caste" value="પ્રજાપતિ (કુંભાર)" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-xs text-stone-400 gujarati-text">મૂળ વતન *</label>
+                <input type="text" name="nativeVillage" required placeholder="ઉદા. મહેસાણા / ઊંઝા" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-xs text-stone-400 gujarati-text">મોસાળ</label>
+                <input type="text" name="mosal" placeholder="ઉદા. વિસનગર" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-xs text-stone-400 gujarati-text">મોબાઈલ નંબર (લોગઈન યુઝરનેમ) *</label>
+                <input type="tel" name="mobileNumber" required placeholder="ઉદા. 9825134912" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500 font-mono">
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-xs text-stone-400 gujarati-text">ધર્મ</label>
+                <input type="text" name="religion" value="હિન્દુ" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+              </div>
+
+              <div class="space-y-1 sm:col-span-2">
+                <label class="text-xs text-stone-400 gujarati-text">શારીરિક વિશેષતા (ઊંચાઈ, રંગ, વજન વગેરે)</label>
+                <input type="text" name="physicalAttr" placeholder="ઉદા. ઊંચાઈ 5'8\", ગોરો રંગ" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="flex flex-wrap items-center gap-2">
-          <button onclick="openManageMembersModal()" title="View and authorize member accounts" class="bg-purple-800 hover:bg-purple-700 border border-purple-600 text-xs px-3 py-1.5 rounded-lg font-semibold flex items-center space-x-1.5">
-            <i class="ph-bold ph-users"></i>
-            <span>Authorized Members</span>
-          </button>
-          <button onclick="exportDatabase()" title="Backup all global records" class="bg-purple-800 hover:bg-purple-700 border border-purple-600 text-xs px-3 py-1.5 rounded-lg font-semibold flex items-center space-x-1.5">
-            <i class="ph-bold ph-download-simple"></i>
-            <span>Download Backup</span>
-          </button>
-          <button onclick="logoutRole()" class="bg-rose-600/90 hover:bg-rose-700 text-xs px-3 py-1.5 rounded-lg font-semibold flex items-center space-x-1">
-            <i class="ph-bold ph-sign-out"></i>
-            <span>Exit Admin</span>
-          </button>
-        </div>
+
+          <!-- Section 2: Family Details -->
+          <div class="space-y-4">
+            <h3 class="text-sm font-bold text-amber-400 uppercase tracking-wider flex items-center space-x-2 gujarati-text border-l-2 border-amber-500 pl-3">
+              <span>૨. પરિવારની વિગતો (Family Details)</span>
+            </h3>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="space-y-1">
+                <label class="text-xs text-stone-400 gujarati-text">પિતાનું નામ *</label>
+                <input type="text" name="fatherName" required placeholder="ઉદા. રમેશભાઈ પ્રજાપતિ" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-xs text-stone-400 gujarati-text">પિતાનો વ્યવસાય</label>
+                <input type="text" name="fatherOcc" placeholder="ઉદા. વેપારી / નિવૃત્ત" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-xs text-stone-400 gujarati-text">માતાનું નામ</label>
+                <input type="text" name="motherName" placeholder="ઉદા. ગીતાબેન" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-xs text-stone-400 gujarati-text">માતાનો વ્યવસાય</label>
+                <input type="text" name="motherOcc" placeholder="ઉદા. ગૃહિણી" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-xs text-stone-400 gujarati-text">ભાઈ (પરિણીત / અપરિણીત)</label>
+                <input type="text" name="brothers" placeholder="ઉદા. ૧ ભાઈ (અપરિણીત)" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-xs text-stone-400 gujarati-text">બહેન (પરિણીત / અપરિણીત)</label>
+                <input type="text" name="sisters" placeholder="ઉદા. ૧ બહેન (પરિણીત)" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+              </div>
+
+              <div class="space-y-1 sm:col-span-2">
+                <label class="text-xs text-stone-400 gujarati-text">કુલ પરિવાર સભ્યો</label>
+                <input type="text" name="totalFamily" placeholder="ઉદા. ૪ સભ્યો" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Residential & Contact Details -->
+          <div class="space-y-4">
+            <h3 class="text-sm font-bold text-amber-400 uppercase tracking-wider flex items-center space-x-2 gujarati-text border-l-2 border-amber-500 pl-3">
+              <span>૩. રહેઠાણની વિગત (Residential Details)</span>
+            </h3>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="space-y-1 sm:col-span-2">
+                <label class="text-xs text-stone-400 gujarati-text">પૂરું સરનામું *</label>
+                <textarea name="fullAddress" required rows="2" placeholder="ઉદા. ૧૨, સોમનાથ સોસાયટી, સ્ટેશન રોડ, મહેસાણા" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500"></textarea>
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-xs text-stone-400 gujarati-text">સંપર્ક મોબાઈલ નંબર *</label>
+                <input type="tel" name="contactPhone" required placeholder="ઉદા. 9825134912" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500 font-mono">
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-xs text-stone-400 gujarati-text">નોંધ / વિશેષ માહિતી</label>
+                <input type="text" name="notes" placeholder="ઉદા. કોઈ વિશેષ અપેક્ષા..." class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 4: 3 Photo Upload Spaces -->
+          <div class="space-y-4">
+            <h3 class="text-sm font-bold text-amber-400 uppercase tracking-wider flex items-center space-x-2 gujarati-text border-l-2 border-amber-500 pl-3">
+              <span>૪. ફોટો અપલોડ (૨-૩ ફોટો સ્પેસ)</span>
+            </h3>
+            <p class="text-xs text-stone-400 gujarati-text">તમે તમારા મોબાઈલ કે કોમ્પ્યુટરથી ૩ સુધીના ફોટો અપલોડ કરી શકો છો.</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <!-- Photo 1 -->
+              <div class="space-y-2 bg-stone-950 p-3 rounded-2xl border border-stone-800 text-center">
+                <label class="text-xs font-semibold text-stone-300 gujarati-text block">મુખ્ય પોર્ટ્રેટ ફોટો ૧ *</label>
+                <div id="preview1Container" class="w-full h-36 bg-stone-900 rounded-xl border border-dashed border-stone-700 flex items-center justify-center overflow-hidden relative">
+                  <img id="preview1" src="" class="hidden w-full h-full object-cover">
+                  <span id="label1" class="text-[11px] text-stone-500 gujarati-text">ફોટો પસંદ કરો</span>
+                </div>
+                <input type="file" accept="image/*" onchange="handleImageUpload(event, 1)" class="w-full text-[11px] text-stone-400 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-[11px] file:font-semibold file:bg-amber-500 file:text-stone-950 hover:file:bg-amber-600 cursor-pointer">
+              </div>
+
+              <!-- Photo 2 -->
+              <div class="space-y-2 bg-stone-950 p-3 rounded-2xl border border-stone-800 text-center">
+                <label class="text-xs font-semibold text-stone-300 gujarati-text block">ફુલ સાઇઝ ફોટો ૨</label>
+                <div id="preview2Container" class="w-full h-36 bg-stone-900 rounded-xl border border-dashed border-stone-700 flex items-center justify-center overflow-hidden relative">
+                  <img id="preview2" src="" class="hidden w-full h-full object-cover">
+                  <span id="label2" class="text-[11px] text-stone-500 gujarati-text">ફોટો પસંદ કરો</span>
+                </div>
+                <input type="file" accept="image/*" onchange="handleImageUpload(event, 2)" class="w-full text-[11px] text-stone-400 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-[11px] file:font-semibold file:bg-stone-800 file:text-stone-200 hover:file:bg-stone-700 cursor-pointer">
+              </div>
+
+              <!-- Photo 3 -->
+              <div class="space-y-2 bg-stone-950 p-3 rounded-2xl border border-stone-800 text-center">
+                <label class="text-xs font-semibold text-stone-300 gujarati-text block">પરિવાર / કેઝ્યુઅલ ફોટો ૩</label>
+                <div id="preview3Container" class="w-full h-36 bg-stone-900 rounded-xl border border-dashed border-stone-700 flex items-center justify-center overflow-hidden relative">
+                  <img id="preview3" src="" class="hidden w-full h-full object-cover">
+                  <span id="label3" class="text-[11px] text-stone-500 gujarati-text">ફોટો પસંદ કરો</span>
+                </div>
+                <input type="file" accept="image/*" onchange="handleImageUpload(event, 3)" class="w-full text-[11px] text-stone-400 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-[11px] file:font-semibold file:bg-stone-800 file:text-stone-200 hover:file:bg-stone-700 cursor-pointer">
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="pt-4">
+            <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-stone-950 font-bold rounded-xl text-sm transition shadow-lg gujarati-text flex items-center justify-center space-x-2">
+              <i class="ph-bold ph-cloud-arrow-up text-lg"></i>
+              <span>બાયોડેટા સબમિટ કરો અને રજીસ્ટર કરો</span>
+            </button>
+          </div>
+
+        </form>
       </div>
-    </div>
-
-    <div class="bg-white p-4 rounded-xl border border-stone-200 shadow-sm mb-6">
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-3">
-        <div class="flex items-center space-x-2">
-          <i class="ph-bold ph-magnifying-glass text-brand-700"></i>
-          <h2 class="text-sm font-bold uppercase tracking-wider text-stone-700">બાયોડેટા ફિલ્ટર / Search Profiles</h2>
-        </div>
-        <div class="flex items-center justify-between md:justify-end space-x-3 text-xs text-stone-500">
-          <span>કુલ બાયોડેટા: <strong id="profileCount" class="text-stone-800">0</strong></span>
-          <button id="resetFilterBtn" class="text-brand-700 hover:underline flex items-center space-x-1 font-medium">
-            <i class="ph ph-arrow-counter-clockwise"></i>
-            <span>Reset Filters</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-        <div>
-          <label class="block text-[11px] font-semibold text-stone-600 mb-1">વર / કન્યા (Looking For)</label>
-          <select id="filterGender" class="w-full text-xs bg-stone-50 border border-stone-300 rounded-lg px-2.5 py-2 focus:ring-2 focus:ring-brand-500 outline-none">
-            <option value="all">બધા (All Profiles)</option>
-            <option value="Female">કન્યા (Brides)</option>
-            <option value="Male">વર (Grooms)</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-[11px] font-semibold text-stone-600 mb-1">વૈવાહિક સ્થિતિ (Status)</label>
-          <select id="filterMarital" class="w-full text-xs bg-stone-50 border border-stone-300 rounded-lg px-2.5 py-2 focus:ring-2 focus:ring-brand-500 outline-none">
-            <option value="all">બધી સ્થિતિ (All)</option>
-            <option value="અપરિણીત (Unmarried)">અપરિણીત (Unmarried)</option>
-            <option value="છૂટાછેડા (Divorced)">છૂટાછેડા (Divorced)</option>
-            <option value="વિધવા / વિધુર (Widowed)">વિધવા / વિધુર (Widowed)</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-[11px] font-semibold text-stone-600 mb-1">મૂળ વતન (Native Place)</label>
-          <select id="filterNative" class="w-full text-xs bg-stone-50 border border-stone-300 rounded-lg px-2.5 py-2 focus:ring-2 focus:ring-brand-500 outline-none">
-            <option value="all">બધા વતન (All Native)</option>
-            <option value="Mehsana">મહેસાણા (Mehsana)</option>
-            <option value="Patan">પાટણ (Patan)</option>
-            <option value="Siddhpur">સિદ્ધપુર (Siddhpur)</option>
-            <option value="Ahmedabad">અમદાવાદ (Ahmedabad)</option>
-            <option value="Vadodara">વડોદરા (Vadodara)</option>
-            <option value="Surat">સુરત (Surat)</option>
-            <option value="Rajkot">રાજકોટ (Rajkot)</option>
-            <option value="Morbi">મોરબી (Morbi)</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-[11px] font-semibold text-stone-600 mb-1">નામ અથવા શિક્ષણ (Search)</label>
-          <input type="text" id="filterSearch" placeholder="નામ, ડિગ્રી, વ્યવસાય..." class="w-full text-xs bg-stone-50 border border-stone-300 rounded-lg px-2.5 py-2 focus:ring-2 focus:ring-brand-500 outline-none">
-        </div>
-      </div>
-    </div>
-
-    <div id="profilesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      <!-- Dynamic profile cards injected here -->
-    </div>
-
-    <div id="emptyState" class="hidden text-center py-12 bg-white rounded-xl border border-dashed border-stone-300">
-      <i class="ph ph-user-list text-4xl text-stone-300 mb-2"></i>
-      <p class="font-medium text-stone-600 text-sm">કોઈ બાયોડેટા મળ્યા નથી (No profiles found).</p>
-      <p class="text-xs text-stone-400 mt-1">Try resetting your filters or submit a new candidate biodata.</p>
     </div>
   </main>
 
-  <footer class="bg-stone-900 text-stone-400 text-xs py-6 mt-12 border-t border-stone-800">
-    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-      <div class="flex flex-col sm:flex-row items-center space-y-1 sm:space-y-0 sm:space-x-2">
-        <span class="text-amber-400 font-bold">Prajapati Matrimony Global</span>
-        <span class="hidden sm:inline">•</span>
-        <span>Real-time cloud synced with anti-leak privacy protection</span>
+  <footer class="bg-stone-900 border-t border-stone-800 mt-12 py-8 px-4 sm:px-6 lg:px-8 text-center space-y-4">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-xs text-stone-400 gap-4">
+      <div class="gujarati-text font-medium text-stone-300">
+        શ્રી પ્રજાપતિ સમાજ મેટ્રિમોની વેબ પોર્ટલ &copy; ૨૦૨૬ | સર્વાધિકાર સુરક્ષિત
       </div>
-      <div class="flex items-center space-x-4 text-[11px] text-stone-400">
-        <span>Login with Mobile No. & Birth Year</span>
-        <span>•</span>
-        <button onclick="openAdminLoginModal()" class="text-stone-400 hover:text-amber-400 transition flex items-center space-x-1">
-          <i class="ph-bold ph-lock-key"></i>
-          <span>Committee Admin</span>
+      <div class="flex items-center space-x-4">
+        <button onclick="openAdminModal()" class="text-amber-400 hover:text-amber-300 font-semibold flex items-center space-x-1 gujarati-text">
+          <i class="ph-bold ph-shield-check text-sm"></i>
+          <span>સમાજ એડમિન લોગઈન</span>
         </button>
       </div>
     </div>
   </footer>
 
-  <div id="memberLoginModal" class="fixed inset-0 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
-    <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl border border-stone-100 animate-in fade-in zoom-in duration-150">
-      <div class="flex justify-between items-center pb-3 border-b border-stone-100">
-        <h3 class="font-bold text-stone-800 text-base flex items-center gap-2">
-          <i class="ph-bold ph-user-circle-gear text-brand-700 text-xl"></i>
-          સભ્ય લોગિન (Member Login)
-        </h3>
-        <button onclick="closeMemberLoginModal()" class="text-stone-400 hover:text-stone-600 text-lg p-1">
-          <i class="ph ph-x"></i>
-        </button>
-      </div>
+  <!-- ================= MODALS ================= -->
 
-      <div class="bg-amber-50 p-2.5 rounded-xl border border-amber-200 mt-3 text-xs text-amber-900 space-y-1">
-        <div class="font-bold flex items-center gap-1">
-          <i class="ph-bold ph-key text-amber-700"></i>
-          <span>સરળ ઓળખ પદ્ધતિ (Easy Sign-In):</span>
-        </div>
-        <p class="text-[11px] leading-relaxed text-amber-800">
-          Username: <strong>તમારો મોબાઈલ નંબર</strong><br>
-          Password: <strong>તમારું જન્મ વર્ષ (દા.ત. 1998, 2000)</strong>
-        </p>
-      </div>
-
-      <form id="memberLoginForm" class="space-y-3 mt-3 text-xs">
-        <div>
-          <label class="block font-semibold text-stone-700 mb-1">મોબાઈલ નંબર (Mobile Number as Username) *</label>
-          <input type="tel" id="loginMobileInput" required placeholder="દા.ત. 9825134912" maxlength="15" class="w-full text-xs font-mono bg-stone-50 border border-stone-300 rounded-lg p-2.5 focus:ring-2 focus:ring-brand-500 outline-none">
-        </div>
-
-        <div>
-          <label class="block font-semibold text-stone-700 mb-1">જન્મ વર્ષ (Birth Year as Password) *</label>
-          <input type="number" id="loginBirthYearInput" required placeholder="દા.ત. 1998 અથવા 2000" min="1940" max="2010" class="w-full text-xs font-mono bg-stone-50 border border-stone-300 rounded-lg p-2.5 focus:ring-2 focus:ring-brand-500 outline-none">
-        </div>
-
-        <div class="bg-stone-50 p-2 rounded-lg border border-stone-200 text-[11px] space-y-1.5">
-          <span class="text-stone-500 font-semibold block text-[10px] uppercase tracking-wider">Quick Fill Test Member:</span>
-          <div class="flex flex-wrap gap-1.5">
-            <button type="button" onclick="quickFillMember('9825134912', '2000')" class="bg-white hover:bg-stone-100 text-brand-800 border border-stone-300 px-2 py-0.5 rounded font-mono text-[10px]">
-              9825134912 / 2000 (પૂજા)
-            </button>
-            <button type="button" onclick="quickFillMember('9428081234', '1998')" class="bg-white hover:bg-stone-100 text-brand-800 border border-stone-300 px-2 py-0.5 rounded font-mono text-[10px]">
-              9428081234 / 1998 (હર્ષિલ)
-            </button>
-          </div>
-        </div>
-
-        <div class="pt-2 flex gap-2">
-          <button type="button" onclick="closeMemberLoginModal()" class="w-1/3 py-2 text-xs font-semibold text-stone-600 bg-stone-100 hover:bg-stone-200 rounded-lg">રદ કરો</button>
-          <button type="submit" class="w-2/3 py-2 text-xs font-semibold text-white bg-brand-700 hover:bg-brand-800 rounded-lg shadow flex items-center justify-center gap-1.5">
-            <i class="ph-bold ph-sign-in"></i>
-            <span>લોગિન કરો (Login)</span>
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <div id="adminLoginModal" class="fixed inset-0 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
-    <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl border border-stone-100 animate-in fade-in zoom-in duration-150">
-      <div class="flex justify-between items-center pb-3 border-b border-stone-100">
-        <h3 class="font-bold text-stone-800 text-base flex items-center gap-2">
-          <i class="ph-bold ph-shield-check text-purple-700"></i>
-          Samaj Committee Admin Login
-        </h3>
-        <button onclick="closeAdminLoginModal()" class="text-stone-400 hover:text-stone-600 text-lg p-1">
-          <i class="ph ph-x"></i>
-        </button>
-      </div>
-
-      <p class="text-xs text-stone-500 mt-2 mb-4">
-        Enter the Committee Security Master PIN to manage real-time global profiles and authorized members.
-      </p>
-
-      <form id="adminLoginForm" class="space-y-3 text-xs">
-        <div>
-          <label class="block font-semibold text-stone-700 mb-1">Master Security PIN *</label>
-          <input type="password" id="adminPinInput" required placeholder="Enter Master PIN" class="w-full text-xs font-mono bg-stone-50 border border-stone-300 rounded-lg p-2.5 focus:ring-2 focus:ring-purple-600 outline-none">
-        </div>
-
-        <div class="bg-purple-50 p-2.5 rounded-lg border border-purple-200 text-[11px] text-purple-900 flex items-center justify-between">
-          <span class="flex items-center space-x-1">
-            <i class="ph-bold ph-info text-purple-700"></i>
-            <span>Demo PIN: <strong>7799</strong></span>
-          </span>
-          <button type="button" onclick="document.getElementById('adminPinInput').value='7799'" class="text-[10px] bg-purple-200 hover:bg-purple-300 text-purple-900 px-2 py-0.5 rounded font-semibold">
-            Auto-fill PIN
-          </button>
-        </div>
-
-        <div class="pt-2 flex gap-2">
-          <button type="button" onclick="closeAdminLoginModal()" class="w-1/3 py-2 text-xs font-semibold text-stone-600 bg-stone-100 hover:bg-stone-200 rounded-lg">Cancel</button>
-          <button type="submit" class="w-2/3 py-2 text-xs font-semibold text-white bg-purple-800 hover:bg-purple-900 rounded-lg shadow">Unlock Admin</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <div id="manageMembersModal" class="fixed inset-0 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 z-50 hidden overflow-y-auto">
-    <div class="bg-white rounded-2xl max-w-lg w-full p-5 shadow-2xl border border-stone-100 max-h-[90vh] flex flex-col my-auto">
-      <div class="flex justify-between items-center pb-3 border-b border-stone-200">
-        <div>
-          <h3 class="font-bold text-stone-800 text-base">Authorized Samaj Members</h3>
-          <p class="text-[11px] text-stone-500">Global roster with mobile number and birth year credentials</p>
-        </div>
-        <button onclick="closeManageMembersModal()" class="text-stone-400 hover:text-stone-600 text-lg p-1">
-          <i class="ph ph-x"></i>
-        </button>
-      </div>
-
-      <form id="createMemberForm" class="bg-stone-50 p-3.5 rounded-xl border border-stone-200 my-3 text-xs space-y-2.5">
-        <span class="font-bold text-stone-700 text-[11px] uppercase tracking-wider block">Add / Register Authorized Member</span>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-          <input type="text" id="newMemberName" required placeholder="Member Name" class="p-2 border border-stone-300 rounded-lg outline-none bg-white">
-          <input type="tel" id="newMemberPhone" required placeholder="Mobile (Username)" class="p-2 border border-stone-300 rounded-lg outline-none bg-white">
-          <input type="number" id="newMemberBirthYear" required placeholder="Birth Year (Pass)" min="1940" max="2010" class="p-2 border border-stone-300 rounded-lg outline-none bg-white">
-        </div>
-        <button type="submit" class="w-full py-2 bg-purple-800 hover:bg-purple-900 text-white font-semibold rounded-lg flex items-center justify-center space-x-1.5 shadow-sm">
-          <i class="ph-bold ph-user-plus"></i>
-          <span>Save Member to Cloud</span>
-        </button>
-      </form>
-
-      <div class="overflow-y-auto flex-1 pr-1">
-        <h4 class="text-[11px] font-bold text-stone-500 uppercase tracking-wider mb-2">Registered Member Accounts</h4>
-        <div id="membersListContainer" class="space-y-2 text-xs">
-          <!-- Populated dynamically -->
-        </div>
-      </div>
-
-      <div class="pt-3 border-t border-stone-200 mt-3 flex justify-end">
-        <button onclick="closeManageMembersModal()" class="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-800 font-semibold rounded-lg text-xs">
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div id="uploadModal" class="fixed inset-0 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 z-50 hidden overflow-y-auto">
-    <div class="bg-white rounded-2xl max-w-2xl w-full p-5 shadow-2xl border border-stone-100 max-h-[94vh] flex flex-col my-auto">
-      <div class="flex justify-between items-center pb-3 border-b border-stone-200">
-        <div>
-          <h3 class="font-bold text-stone-800 text-base flex items-center gap-2">
-            <i class="ph-bold ph-user-plus text-brand-700"></i>
-            નવો બાયોડેટા ઉમેરો (Biodata Registration)
-          </h3>
-          <p class="text-[11px] text-stone-500">પ્રજાપતિ સમાજ મેટ્રિમોની - નિયત ફોર્મ મુજબ વિગતો ભરો</p>
-        </div>
-        <button onclick="closeUploadModal()" class="text-stone-400 hover:text-stone-600 text-lg p-1">
-          <i class="ph ph-x"></i>
-        </button>
-      </div>
-
-      <form id="biodataForm" class="space-y-4 overflow-y-auto py-3 px-1 flex-1 pr-2 text-xs">
-
-        <!-- 2-3 Photo Space with Compressed Gallery Support -->
-        <div class="bg-brand-50/60 p-3.5 rounded-xl border border-brand-100 space-y-2.5">
-          <div class="flex items-center justify-between">
-            <span class="font-bold text-brand-900 text-xs flex items-center gap-1.5">
-              <i class="ph-bold ph-images-square text-brand-700 text-base"></i>
-              <span>ઉમેદવારના ૨-૩ ફોટો (Upload 2 to 3 Photos) *</span>
-            </span>
-            <span class="text-[10px] text-brand-700 font-medium bg-brand-100 px-2 py-0.5 rounded-md">ઓટો-ઓપ્ટિમાઈઝ થશે</span>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div class="bg-white p-2.5 rounded-xl border border-stone-200 text-center flex flex-col items-center justify-between space-y-2">
-              <span class="text-[10px] font-bold text-stone-700 block">૧. મુખ્ય ફોટો (Primary) *</span>
-              <img id="previewPhoto1" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80" 
-                   alt="Photo 1" class="w-20 h-24 rounded-lg object-cover border border-stone-300 shadow-xs bg-stone-100">
-              <label class="cursor-pointer w-full py-1 bg-stone-100 hover:bg-stone-200 text-stone-800 text-[10px] font-semibold rounded-md border border-stone-300 text-center block">
-                <span>ગેલેરી / કેમેરો</span>
-                <input type="file" id="filePhoto1" accept="image/*" class="hidden">
-              </label>
-              <input type="url" id="urlPhoto1" placeholder="અથવા Image URL" class="w-full text-[10px] p-1 bg-stone-50 border border-stone-200 rounded outline-none">
-            </div>
-
-            <div class="bg-white p-2.5 rounded-xl border border-stone-200 text-center flex flex-col items-center justify-between space-y-2">
-              <span class="text-[10px] font-bold text-stone-700 block">૨. ફુલ સાઇઝ ફોટો (Full)</span>
-              <img id="previewPhoto2" src="https://placehold.co/200x260/fdf4f4/a81e22?text=Photo+2" 
-                   alt="Photo 2" class="w-20 h-24 rounded-lg object-cover border border-stone-300 shadow-xs bg-stone-100">
-              <label class="cursor-pointer w-full py-1 bg-stone-100 hover:bg-stone-200 text-stone-800 text-[10px] font-semibold rounded-md border border-stone-300 text-center block">
-                <span>ગેલેરી / કેમેરો</span>
-                <input type="file" id="filePhoto2" accept="image/*" class="hidden">
-              </label>
-              <input type="url" id="urlPhoto2" placeholder="અથવા Image URL" class="w-full text-[10px] p-1 bg-stone-50 border border-stone-200 rounded outline-none">
-            </div>
-
-            <div class="bg-white p-2.5 rounded-xl border border-stone-200 text-center flex flex-col items-center justify-between space-y-2">
-              <span class="text-[10px] font-bold text-stone-700 block">૩. ટ્રેડિશનલ / પરિવાર (Casual)</span>
-              <img id="previewPhoto3" src="https://placehold.co/200x260/fdf4f4/a81e22?text=Photo+3" 
-                   alt="Photo 3" class="w-20 h-24 rounded-lg object-cover border border-stone-300 shadow-xs bg-stone-100">
-              <label class="cursor-pointer w-full py-1 bg-stone-100 hover:bg-stone-200 text-stone-800 text-[10px] font-semibold rounded-md border border-stone-300 text-center block">
-                <span>ગેલેરી / કેમેરો</span>
-                <input type="file" id="filePhoto3" accept="image/*" class="hidden">
-              </label>
-              <input type="url" id="urlPhoto3" placeholder="અથવા Image URL" class="w-full text-[10px] p-1 bg-stone-50 border border-stone-200 rounded outline-none">
-            </div>
-          </div>
-        </div>
-
-        <!-- વ્યક્તિગત વિગતો section -->
-        <div class="border border-stone-200 rounded-xl p-3.5 bg-stone-50/70 space-y-3">
-          <div class="flex items-center space-x-1.5 pb-2 border-b border-stone-200 text-brand-800 font-bold text-xs uppercase tracking-wide">
-            <i class="ph-bold ph-identification-card text-base text-brand-700"></i>
-            <span>વ્યક્તિગત વિગતો (Personal Details)</span>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-            <div class="sm:col-span-2">
-              <label class="block font-semibold text-stone-700 mb-1">નામ (Name) *</label>
-              <input type="text" id="formName" required placeholder="દા.ત., પૂજા રમેશભાઈ પ્રજાપતિ" class="w-full p-2 bg-white border border-stone-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
-            </div>
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">વર / કન્યા (Gender) *</label>
-              <select id="formGender" required class="w-full p-2 bg-white border border-stone-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
-                <option value="Female">કન્યા (Bride)</option>
-                <option value="Male">વર (Groom)</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">જન્મ તારીખ (Date of Birth) *</label>
-              <input type="date" id="formDob" required class="w-full p-2 bg-white border border-stone-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
-            </div>
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">ઉંમર (Age) *</label>
-              <input type="number" id="formAge" min="18" max="75" required placeholder="દા.ત., 26" class="w-full p-2 bg-white border border-stone-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
-            </div>
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">વૈવાહિક સ્થિતિ (Marital Status) *</label>
-              <select id="formMarital" required class="w-full p-2 bg-white border border-stone-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
-                <option value="અપરિણીત (Unmarried)">અપરિણીત (Unmarried)</option>
-                <option value="છૂટાછેડા (Divorced)">છૂટાછેડા (Divorced)</option>
-                <option value="વિધવા / વિધુર (Widowed)">વિધવા / વિધુર (Widowed)</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">શિક્ષણ (Education) *</label>
-              <input type="text" id="formEducation" required placeholder="દા.ત., B.Pharm, M.Pharm, B.Tech" class="w-full p-2 bg-white border border-stone-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
-            </div>
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">વ્યવસાય / નોકરી (Occupation / Job) *</label>
-              <input type="text" id="formOccupation" required placeholder="દા.ત., સોફ્ટવેર એન્જિનિયર, બિઝનેસ" class="w-full p-2 bg-white border border-stone-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">માસિક આવક (Monthly Income)</label>
-              <input type="text" id="formIncome" placeholder="દા.ત., ₹ 65,000 / માસિક" class="w-full p-2 bg-white border border-stone-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
-            </div>
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">જાતિ (Caste)</label>
-              <input type="text" id="formCaste" value="ગુર્જર પ્રજાપતિ" class="w-full p-2 bg-white border border-stone-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
-            </div>
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">ધર્મ (Religion)</label>
-              <input type="text" id="formReligion" value="હિન્દુ (Hindu)" class="w-full p-2 bg-white border border-stone-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">મૂળ વતન (Native Place) *</label>
-              <input type="text" id="formNative" required placeholder="દા.ત., સિદ્ધપુર, મહેસાણા" class="w-full p-2 bg-white border border-stone-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
-            </div>
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">મોસાળ (Mosal) *</label>
-              <input type="text" id="formMosal" required placeholder="દા.ત., વિસનગર" class="w-full p-2 bg-white border border-stone-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
-            </div>
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">શારીરિક વિશેષતા (Physical)</label>
-              <input type="text" id="formPhysical" placeholder="ઊંચાઈ: 5' 4\", રંગ: ગોરો" class="w-full p-2 bg-white border border-stone-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
-            </div>
-          </div>
-
-          <div>
-            <label class="block font-semibold text-stone-700 mb-1">મોબાઈલ નંબર (Mobile Number) *</label>
-            <input type="tel" id="formMobile" required placeholder="દા.ત., 9825134912" class="w-full p-2 bg-white border border-stone-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
-            <span class="text-[10px] text-stone-400 mt-0.5 block">આ મોબાઈલ નંબર અને જન્મ વર્ષથી આપ ભવિષ્યમાં સીધા લોગિન કરી શકશો.</span>
-          </div>
-        </div>
-
-        <!-- પરિવારની વિગતો section -->
-        <div class="border border-stone-200 rounded-xl p-3.5 bg-stone-50/70 space-y-3">
-          <div class="flex items-center space-x-1.5 pb-2 border-b border-stone-200 text-brand-800 font-bold text-xs uppercase tracking-wide">
-            <i class="ph-bold ph-users-three text-base text-brand-700"></i>
-            <span>પરિવારની વિગતો (Family Details)</span>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">પિતાનું નામ (Father's Name) *</label>
-              <input type="text" id="formFatherName" required placeholder="પિતાનું પૂરું નામ" class="w-full p-2 bg-white border border-stone-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
-            </div>
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">પિતાનો વ્યવસાય (Father's Occupation)</label>
-              <input type="text" id="formFatherOcc" placeholder="દા.ત., વેપારી / નોકરી" class="w-full p-2 bg-white border border-stone-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">માતાનું નામ (Mother's Name) *</label>
-              <input type="text" id="formMotherName" required placeholder="માતાનું પૂરું નામ" class="w-full p-2 bg-white border border-stone-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
-            </div>
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">માતાનો વ્યવસાય (Mother's Occupation)</label>
-              <input type="text" id="formMotherOcc" value="ગૃહિણી (Homemaker)" class="w-full p-2 bg-white border border-stone-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">ભાઈ (Brothers)</label>
-              <input type="text" id="formBrothers" placeholder="દા.ત., ૧ ભાઈ" class="w-full p-2 bg-white border border-stone-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
-            </div>
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">બહેન (Sisters)</label>
-              <input type="text" id="formSisters" placeholder="દા.ત., ૧ બહેન" class="w-full p-2 bg-white border border-stone-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
-            </div>
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">કુલ પરિવાર સભ્યો (Total Members)</label>
-              <input type="text" id="formTotalMembers" placeholder="દા.ત., ૫ સભ્યો" class="w-full p-2 bg-white border border-stone-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
-            </div>
-          </div>
-        </div>
-
-        <!-- રહેઠાણની વિગત section -->
-        <div class="border border-stone-200 rounded-xl p-3.5 bg-stone-50/70 space-y-3">
-          <div class="flex items-center space-x-1.5 pb-2 border-b border-stone-200 text-brand-800 font-bold text-xs uppercase tracking-wide">
-            <i class="ph-bold ph-house-line text-base text-brand-700"></i>
-            <span>૧. રહેઠાણની વિગત (Residential Details)</span>
-          </div>
-
-          <div>
-            <label class="block font-semibold text-stone-700 mb-1">પૂરું સરનામું (Full Address) *</label>
-            <textarea id="formAddress" required rows="2" placeholder="ઘર નંબર, સોસાયટી, વિસ્તાર, શહેર" class="w-full p-2 bg-white border border-stone-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none resize-none"></textarea>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">સંપર્ક મોબાઈલ નંબર (Contact Mobile) *</label>
-              <input type="tel" id="formContactPhone" required placeholder="દા.ત., 9825134912" class="w-full p-2 bg-white border border-amber-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
-            </div>
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">નોંધ (Notes)</label>
-              <input type="text" id="formNotes" placeholder="દા.ત., શાંત સ્વભાવ, સંસ્કારી કુટુંબ" class="w-full p-2 bg-white border border-stone-300 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
-            </div>
-          </div>
-        </div>
-
-        <div class="pt-2 flex gap-2">
-          <button type="button" onclick="closeUploadModal()" class="w-1/3 py-2.5 font-semibold text-stone-600 bg-stone-100 hover:bg-stone-200 rounded-xl">રદ કરો</button>
-          <button type="submit" id="saveBiodataBtn" class="w-2/3 py-2.5 font-semibold text-white bg-brand-700 hover:bg-brand-800 rounded-xl shadow flex items-center justify-center space-x-2">
-            <i class="ph-bold ph-cloud-arrow-up text-base"></i>
-            <span>ક્લાઉડમાં સેવ કરો (Save to Cloud)</span>
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <div id="detailsModal" class="fixed inset-0 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 z-50 hidden overflow-y-auto">
-    <div class="bg-white rounded-2xl max-w-2xl w-full p-5 shadow-2xl border border-stone-100 max-h-[94vh] flex flex-col my-auto relative overflow-hidden">
-      
-      <div id="modalWatermarkOverlay" class="security-watermark-overlay hidden">
-        <div id="modalWatermarkText" class="watermark-text"></div>
-      </div>
-
-      <div class="flex justify-between items-start pb-3 border-b border-stone-200 z-10 relative">
-        <div>
-          <div class="flex items-center space-x-2">
-            <h3 id="modalName" class="font-bold text-stone-800 text-base sm:text-lg">ઉમેદવારનું નામ</h3>
-            <span id="modalVerifiedBadge" class="bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded-full font-bold">વેરિફાઈડ</span>
-          </div>
-          <p id="modalBasicSub" class="text-xs text-stone-500 mt-0.5">25 વર્ષ • કન્યા • અપરિણીત</p>
-        </div>
-        <button onclick="closeDetailsModal()" class="text-stone-400 hover:text-stone-600 text-lg p-1">
-          <i class="ph ph-x"></i>
-        </button>
-      </div>
-
-      <div class="overflow-y-auto py-3 space-y-3.5 flex-1 text-xs z-10 relative pr-1">
-        
-        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-3.5 bg-brand-50/50 p-3.5 rounded-xl border border-brand-100">
-          
-          <div class="flex flex-col items-center gap-1.5 shrink-0">
-            <div class="relative w-32 h-40 rounded-xl overflow-hidden shadow border border-stone-200 cursor-pointer group" onclick="openPhotoGallery(0)" title="ક્લિક કરો - મોટો ફોટો જુઓ">
-              <img id="modalPhoto" src="" alt="Candidate" class="w-full h-full object-cover transition duration-200 group-hover:scale-105">
-              <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
-                <span class="bg-stone-900/80 text-white text-[10px] px-2 py-1 rounded-full flex items-center gap-1">
-                  <i class="ph-bold ph-arrows-out-simple"></i> મોટો જુઓ
-                </span>
-              </div>
-              <div id="photoWatermarkTag" class="absolute bottom-0 inset-x-0 bg-black/70 text-amber-200 text-[8px] py-0.5 text-center font-mono truncate px-1">
-                PRAJAPATI SAMAJ
-              </div>
-            </div>
-
-            <div id="modalThumbnailsStrip" class="flex items-center gap-1.5 pt-1">
-              <!-- Thumbnails -->
-            </div>
-          </div>
-
-          <div class="flex-1 grid grid-cols-2 gap-2 text-xs w-full">
-            <div>
-              <span class="text-stone-400 block text-[10px]">જન્મ તારીખ (DOB)</span>
-              <span id="modalDob" class="font-semibold text-stone-800">--</span>
-            </div>
-            <div>
-              <span class="text-stone-400 block text-[10px]">ઉંમર (Age)</span>
-              <span id="modalAge" class="font-semibold text-stone-800">--</span>
-            </div>
-            <div>
-              <span class="text-stone-400 block text-[10px]">વૈવાહિક સ્થિતિ (Status)</span>
-              <span id="modalMarital" class="font-semibold text-brand-700">--</span>
-            </div>
-            <div>
-              <span class="text-stone-400 block text-[10px]">શારીરિક વિશેષતા (Physical)</span>
-              <span id="modalPhysical" class="font-semibold text-stone-800">--</span>
-            </div>
-            <div>
-              <span class="text-stone-400 block text-[10px]">મૂળ વતન (Native)</span>
-              <span id="modalNative" class="font-semibold text-stone-800">--</span>
-            </div>
-            <div>
-              <span class="text-stone-400 block text-[10px]">મોસાળ (Mosal)</span>
-              <span id="modalMosal" class="font-semibold text-stone-800">--</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- વ્યક્તિગત વિગતો section -->
-        <div class="bg-stone-50 p-3 rounded-xl border border-stone-200 space-y-2">
-          <h4 class="font-bold text-brand-800 text-[11px] uppercase tracking-wider flex items-center gap-1.5 border-b border-stone-200 pb-1.5">
-            <i class="ph-bold ph-identification-card text-brand-700"></i>
-            <span>વ્યક્તિગત વિગતો (Personal Details)</span>
-          </h4>
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
-            <div>
-              <span class="text-stone-400 block text-[10px]">શિક્ષણ (Education)</span>
-              <span id="modalEducation" class="font-medium text-stone-800">--</span>
-            </div>
-            <div>
-              <span class="text-stone-400 block text-[10px]">વ્યવસાય (Occupation)</span>
-              <span id="modalOccupation" class="font-medium text-stone-800">--</span>
-            </div>
-            <div>
-              <span class="text-stone-400 block text-[10px]">માસિક આવક (Income)</span>
-              <span id="modalIncome" class="font-medium text-emerald-800">--</span>
-            </div>
-            <div>
-              <span class="text-stone-400 block text-[10px]">જાતિ (Caste)</span>
-              <span id="modalCaste" class="font-medium text-stone-800">--</span>
-            </div>
-            <div>
-              <span class="text-stone-400 block text-[10px]">ધર્મ (Religion)</span>
-              <span id="modalReligion" class="font-medium text-stone-800">--</span>
-            </div>
-            <div>
-              <span class="text-stone-400 block text-[10px]">મોબાઈલ નંબર (Mobile)</span>
-              <span id="modalCandidateMobile" class="font-medium text-stone-800">--</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- પરિવારની વિગતો section -->
-        <div class="bg-stone-50 p-3 rounded-xl border border-stone-200 space-y-2">
-          <h4 class="font-bold text-brand-800 text-[11px] uppercase tracking-wider flex items-center gap-1.5 border-b border-stone-200 pb-1.5">
-            <i class="ph-bold ph-users-three text-brand-700"></i>
-            <span>પરિવારની વિગતો (Family Details)</span>
-          </h4>
-          <div class="grid grid-cols-2 gap-2 text-xs">
-            <div>
-              <span class="text-stone-400 block text-[10px]">પિતાનું નામ (Father's Name)</span>
-              <span id="modalFatherName" class="font-medium text-stone-800">--</span>
-            </div>
-            <div>
-              <span class="text-stone-400 block text-[10px]">પિતાનો વ્યવસાય (Father's Job)</span>
-              <span id="modalFatherOcc" class="font-medium text-stone-800">--</span>
-            </div>
-            <div>
-              <span class="text-stone-400 block text-[10px]">માતાનું નામ (Mother's Name)</span>
-              <span id="modalMotherName" class="font-medium text-stone-800">--</span>
-            </div>
-            <div>
-              <span class="text-stone-400 block text-[10px]">માતાનો વ્યવસાય (Mother's Job)</span>
-              <span id="modalMotherOcc" class="font-medium text-stone-800">--</span>
-            </div>
-            <div>
-              <span class="text-stone-400 block text-[10px]">ભાઈ (Brothers)</span>
-              <span id="modalBrothers" class="font-medium text-stone-800">--</span>
-            </div>
-            <div>
-              <span class="text-stone-400 block text-[10px]">બહેન (Sisters)</span>
-              <span id="modalSisters" class="font-medium text-stone-800">--</span>
-            </div>
-            <div class="col-span-2">
-              <span class="text-stone-400 block text-[10px]">કુલ પરિવાર સભ્યો (Total Family)</span>
-              <span id="modalTotalMembers" class="font-medium text-stone-800">--</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- રહેઠાણની વિગત section -->
-        <div id="modalResidenceSection" class="p-3.5 rounded-xl border transition">
-          <!-- Rendered dynamically -->
-        </div>
-      </div>
-
-      <div class="pt-3 border-t border-stone-200 flex justify-between items-center z-10 relative">
-        <button onclick="window.print()" class="text-xs text-stone-500 hover:text-stone-800 flex items-center space-x-1">
-          <i class="ph ph-printer"></i>
-          <span>બાયોડેટા પ્રિન્ટ કરો</span>
-        </button>
-
-        <button onclick="closeDetailsModal()" class="px-4 py-2 bg-stone-800 hover:bg-stone-900 text-white font-medium rounded-lg text-xs">
-          બંધ કરો (Close)
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div id="photoLightboxModal" class="fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 z-50 hidden select-none">
-    
-    <div id="lightboxWatermarkOverlay" class="security-watermark-overlay hidden">
-      <div id="lightboxWatermarkText" class="watermark-text text-white/30"></div>
-    </div>
-
-    <div class="absolute top-3 inset-x-3 flex items-center justify-between z-40 text-white">
-      <div class="flex items-center space-x-2 bg-black/50 px-3 py-1.5 rounded-full backdrop-blur-xs">
-        <i class="ph-bold ph-images text-amber-400"></i>
-        <span id="lightboxCounter" class="text-xs font-mono font-bold">ફોટો ૧ / ૩</span>
-      </div>
-      <button onclick="closePhotoGallery()" class="w-9 h-9 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center text-lg transition">
-        <i class="ph-bold ph-x"></i>
+  <!-- MEMBER LOGIN MODAL -->
+  <div id="loginModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-stone-900 border border-stone-800 rounded-3xl max-w-md w-full p-6 sm:p-8 space-y-6 shadow-2xl relative">
+      <button onclick="closeLoginModal()" class="absolute top-5 right-5 text-stone-400 hover:text-white">
+        <i class="ph-bold ph-x text-xl"></i>
       </button>
+
+      <div class="space-y-2 text-center">
+        <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-2xl flex items-center justify-center mx-auto text-xl border border-amber-500/20">
+          <i class="ph-bold ph-key"></i>
+        </div>
+        <h3 class="text-lg font-bold text-white gujarati-text">સભ્ય લોગઈન (Member Login)</h3>
+        <p class="text-xs text-stone-400 gujarati-text">તમારો મોબાઈલ નંબર અને જન્મવર્ષ દાખલ કરો.</p>
+      </div>
+
+      <form onsubmit="handleMemberLogin(event)" class="space-y-4">
+        <div class="space-y-1">
+          <label class="text-xs text-stone-400 gujarati-text">મોબાઈલ નંબર (યુઝરનેમ)</label>
+          <input type="tel" id="loginMobile" required placeholder="ઉદા. 9825134912" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2.5 text-xs text-stone-200 focus:border-amber-500 font-mono">
+        </div>
+
+        <div class="space-y-1">
+          <label class="text-xs text-stone-400 gujarati-text">જન્મવર્ષ (પાસવર્ડ)</label>
+          <input type="number" id="loginPass" required placeholder="ઉદા. 2000" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2.5 text-xs text-stone-200 focus:border-amber-500 font-mono">
+        </div>
+
+        <button type="submit" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-stone-950 font-bold rounded-xl text-xs transition shadow gujarati-text">
+          લોગઈન કરો
+        </button>
+      </form>
+
+      <div class="bg-stone-950 p-3.5 rounded-xl border border-stone-800 space-y-1 text-[11px] text-stone-400">
+        <div class="font-semibold text-amber-400 gujarati-text">ડેમો સભ્ય આઈડી (ટ્રાય કરવા માટે):</div>
+        <div>📱 9825134912 | 🔑 પાસવર્ડ: 2000</div>
+        <div>📱 9428081234 | 🔑 પાસવર્ડ: 1998</div>
+      </div>
     </div>
-
-    <button onclick="prevGalleryPhoto()" class="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 text-white flex items-center justify-center text-xl z-40 transition">
-      <i class="ph-bold ph-caret-left"></i>
-    </button>
-
-    <div class="max-w-3xl max-h-[85vh] p-2 flex items-center justify-center z-30">
-      <img id="lightboxMainImage" src="" alt="Full Preview" class="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl border border-white/10 transition-transform duration-150">
-    </div>
-
-    <button onclick="nextGalleryPhoto()" class="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 text-white flex items-center justify-center text-xl z-40 transition">
-      <i class="ph-bold ph-caret-right"></i>
-    </button>
   </div>
 
-  <div id="toast" class="fixed bottom-5 right-5 z-50 bg-stone-900 text-white text-xs px-4 py-3 rounded-xl shadow-xl flex items-center space-x-2 transition-all transform translate-y-20 opacity-0 pointer-events-none">
-    <i id="toastIcon" class="ph-bold ph-info text-amber-400 text-sm"></i>
-    <span id="toastMessage">Action completed</span>
+  <!-- ADMIN LOGIN MODAL -->
+  <div id="adminModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-stone-900 border border-stone-800 rounded-3xl max-w-md w-full p-6 sm:p-8 space-y-6 shadow-2xl relative">
+      <button onclick="closeAdminModal()" class="absolute top-5 right-5 text-stone-400 hover:text-white">
+        <i class="ph-bold ph-x text-xl"></i>
+      </button>
+
+      <div class="space-y-2 text-center">
+        <div class="w-12 h-12 bg-rose-500/10 text-rose-400 rounded-2xl flex items-center justify-center mx-auto text-xl border border-rose-500/20">
+          <i class="ph-bold ph-shield-star"></i>
+        </div>
+        <h3 class="text-lg font-bold text-white gujarati-text">સમાજ એડમિન લોગઈન (Admin Panel)</h3>
+        <p class="text-xs text-stone-400 gujarati-text">એડમિન યુઝરનેમ અને પાસવર્ડ દાખલ કરો.</p>
+      </div>
+
+      <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+        <div class="space-y-1">
+          <label class="text-xs text-stone-400 gujarati-text">એડમિન યુઝરનેમ</label>
+          <input type="text" id="adminUser" required value="admin" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2.5 text-xs text-stone-200 focus:border-amber-500 font-mono">
+        </div>
+
+        <div class="space-y-1">
+          <label class="text-xs text-stone-400 gujarati-text">એડમિન પાસવર્ડ</label>
+          <input type="password" id="adminPass" required value="vijay321" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2.5 text-xs text-stone-200 focus:border-amber-500 font-mono">
+        </div>
+
+        <button type="submit" class="w-full py-3 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-xs transition shadow gujarati-text">
+          એડમિન ડેશબોર્ડ ખોલો
+        </button>
+      </form>
+    </div>
   </div>
+
+  <!-- DETAIL MODAL & LIGHTBOX -->
+  <div id="detailModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+    <div class="bg-stone-900 border border-stone-800 rounded-3xl max-w-3xl w-full p-5 sm:p-8 space-y-6 shadow-2xl relative my-auto max-h-[90vh] overflow-y-auto">
+      <button onclick="closeDetailModal()" class="absolute top-5 right-5 z-10 w-10 h-10 bg-stone-800 hover:bg-stone-700 rounded-full flex items-center justify-center text-stone-300">
+        <i class="ph-bold ph-x text-lg"></i>
+      </button>
+      <div id="detailModalContent" class="space-y-6">
+        <!-- Injected -->
+      </div>
+    </div>
+  </div>
+
+  <!-- FULLSCREEN LIGHTBOX -->
+  <div id="lightboxModal" class="fixed inset-0 z-[100] bg-black/95 hidden flex items-center justify-center p-4">
+    <button onclick="closeLightbox()" class="absolute top-6 right-6 text-stone-400 hover:text-white text-3xl z-50">
+      <i class="ph-bold ph-x"></i>
+    </button>
+    <div class="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center justify-center space-y-3">
+      <img id="lightboxImg" src="" class="max-h-[75vh] max-w-full object-contain rounded-2xl shadow-2xl">
+      <div id="lightboxWatermark" class="text-xs font-mono text-amber-400/90 bg-black/80 px-4 py-2 rounded-xl border border-stone-800 text-center"></div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 hidden bg-amber-500 text-stone-950 font-bold px-4 py-3 rounded-2xl shadow-2xl text-xs transition transform translate-y-2"></div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, updateDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, collection, getDocs, doc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'prajapati-matrimony-1';
-    
-    // Config provided by user for Firebase project 'prajapati-matrimony-1'
     const firebaseConfig = {
       apiKey: "AIzaSyBMl_SRFpPdnPnh6sjzdbwbJEfUdxuuwFw",
       authDomain: "prajapati-matrimony-1.firebaseapp.com",
@@ -828,1149 +471,642 @@
     };
 
     let app, auth, db;
-    try {
-      app = initializeApp(firebaseConfig);
-      auth = getAuth(app);
-      db = getFirestore(app);
-    } catch (err) {
-      console.warn("Firebase initialization notice:", err);
-    }
+    let profiles = [];
+    let currentSession = null; // { role: 'guest'|'member'|'admin', name, phone }
+    let uploadedImages = { 1: '', 2: '', 3: '' };
 
-    const INITIAL_PROFILES = [
+    // Seed 5 Demo Profiles
+    const seedProfiles = [
       {
-        id: 'pj-101',
-        name: 'પૂજા રમેશભાઈ પ્રજાપતિ (Pooja Prajapati)',
-        gender: 'Female',
-        dob: '2000-04-12',
-        age: 26,
-        education: 'B.Pharm, M.Pharm',
-        occupation: 'Pharmacist at Zydus Healthcare',
-        income: '₹ 55,000 / માસિક',
-        marital: 'અપરિણીત (Unmarried)',
-        caste: 'ગુર્જર પ્રજાપતિ',
-        native: 'Mehsana',
-        mosal: 'વિસનગર (ઠાકોર/પટેલ પરિવાર)',
-        mobile: '9825134912',
-        religion: 'હિન્દુ (Hindu)',
-        physical: 'ઊંચાઈ: 5\' 3", રંગ: ગોરો, સામાન્ય બાંધો',
-        fatherName: 'રમેશભાઈ ગોવિંદભાઈ પ્રજાપતિ',
-        fatherOcc: 'સિરામિક્સ ટ્રેડિંગ બિઝનેસ',
-        motherName: 'ગીતાબેન પ્રજાપતિ',
-        motherOcc: 'ગૃહિણી (Homemaker)',
-        brothers: '૧ નાનો ભાઈ (B.Tech અભ્યાસ ચાલુ)',
-        sisters: '૧ મોટી બહેન (પરિણીત - સુરત)',
-        totalMembers: '૫ સભ્યો',
-        address: 'B-402, સૂર્યમ રેસિડેન્સી, નિકોલ, અમદાવાદ - 382350',
+        id: 'praj_demo_1',
+        profileType: 'કન્યા',
+        fullName: 'પ્રજાપતિ પૂજાબેન મુકેશભાઈ',
+        dob: '2001-05-14',
+        age: '25',
+        birthYear: '2001',
+        education: 'B.Com, M.Com',
+        occupation: 'Accountant',
+        monthlyIncome: '₹ 35,000 / મહિને',
+        maritalStatus: 'અપરિણીત',
+        caste: 'પ્રજાપતિ (કુંભાર)',
+        nativeVillage: 'મહેસાણા',
+        mosal: 'વિસનગર',
+        mobileNumber: '9825134912',
+        religion: 'હિન્દુ',
+        physicalAttr: 'ઊંચાઈ 5\'4", ગોરો રંગ',
+        fatherName: 'મુકેશભાઈ પ્રજાપતિ',
+        fatherOcc: 'વેપારી',
+        motherName: 'દર્શનાબેન',
+        motherOcc: 'ગૃહિણી',
+        brothers: '૧ ભાઈ (અપરિણીત)',
+        sisters: 'કોઈ નહીં',
+        totalFamily: '૪ સભ્યો',
+        fullAddress: '૧૫, અંબાજી સોસાયટી, રેલ્વે સ્ટેશન રોડ, મહેસાણા',
         contactPhone: '9825134912',
-        notes: 'શાંત, ધાર્મિક અને પારિવારિક સંસ્કારો ધરાવતી કન્યા.',
-        photos: [
-          'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=80',
-          'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&auto=format&fit=crop&q=80',
-          'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&auto=format&fit=crop&q=80'
-        ],
-        photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=80',
-        verified: true,
-        createdAt: '2026-09-01'
+        notes: 'સંસ્કારી અને પરિવારને સાચવે તેવી કન્યા.',
+        photos: ['https://placehold.co/600x800/1c1917/f59e0b?text=Pooja+Prajapati+1', 'https://placehold.co/600x800/292524/f59e0b?text=Pooja+Full+2']
       },
       {
-        id: 'pj-102',
-        name: 'હર્ષિલ જયંતીભાઈ પ્રજાપતિ (Harshil Prajapati)',
-        gender: 'Male',
-        dob: '1998-08-20',
-        age: 28,
-        education: 'B.Tech IT (Nirma University)',
-        occupation: 'સીનિયર સોફ્ટવેર એન્જિનિયર (TCS Infocity)',
-        income: '₹ 1,15,000 / માસિક',
-        marital: 'અપરિણીત (Unmarried)',
-        caste: 'ગુર્જર પ્રજાપતિ',
-        native: 'Patan',
-        mosal: 'સિદ્ધપુર (પ્રેમજીભાઈ પ્રજાપતિ પરિવાર)',
-        mobile: '9428081234',
-        religion: 'હિન્દુ (Hindu)',
-        physical: 'ઊંચાઈ: 5\' 9", રંગ: ઘઉંવર્ણ, સુડોળ બાંધો',
-        fatherName: 'જયંતીભાઈ મોહનભાઈ પ્રજાપતિ',
-        fatherOcc: 'નિવૃત્ત એક્ઝિક્યુટિવ એન્જિનિયર (GWSSB)',
-        motherName: 'મીનાબેન પ્રજાપતિ',
-        motherOcc: 'હાઈસ્કૂલ શિક્ષિકા (ગાંધીનગર)',
-        brothers: 'કોઈ ભાઈ નથી',
-        sisters: '૧ બહેન (ડોક્ટર - પરિણીત)',
-        totalMembers: '૩ સભ્યો',
-        address: 'પ્લોટ નં. 128/1, સેક્ટર-7B, ગાંધીનગર - 382007',
+        id: 'praj_demo_2',
+        profileType: 'વર',
+        fullName: 'પ્રજાપતિ જૈમિનકુમાર રમેશભાઈ',
+        dob: '1998-08-22',
+        age: '28',
+        birthYear: '1998',
+        education: 'B.E. Mechanical Engineer',
+        occupation: 'Design Engineer (MNC)',
+        monthlyIncome: '₹ 75,000 / મહિને',
+        maritalStatus: 'અપરિણીત',
+        caste: 'પ્રજાપતિ',
+        nativeVillage: 'અમદાવાદ',
+        mosal: 'કલોલ',
+        mobileNumber: '9428081234',
+        religion: 'હિન્દુ',
+        physicalAttr: 'ઊંચાઈ 5\'10", એથ્લેટિક બાંધો',
+        fatherName: 'રમેશભાઈ પ્રજાપતિ',
+        fatherOcc: 'સરકારી નોકરી',
+        motherName: 'કોકિલાબેન',
+        motherOcc: 'ગૃહિણી',
+        brothers: 'કોઈ નહીં',
+        sisters: '૧ બહેન (પરિણીત)',
+        totalFamily: '૩ સભ્યો',
+        fullAddress: '૪૨, શિવઘામ સોસાયટી, નરોડા રોડ, અમદાવાદ',
         contactPhone: '9428081234',
-        notes: 'વ્યસનમુક્ત, ઉચ્ચ શિક્ષિત કુટુંબ, પોતાની માલિકીનું મકાન.',
-        photos: [
-          'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=80',
-          'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&auto=format&fit=crop&q=80'
-        ],
-        photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=80',
-        verified: true,
-        createdAt: '2026-09-03'
+        notes: 'અમદાવાદ સ્થિત પોતાના મકાનમાં રહીએ છીએ.',
+        photos: ['https://placehold.co/600x800/1c1917/f59e0b?text=Jaimin+Prajapati+1', 'https://placehold.co/600x800/292524/f59e0b?text=Jaimin+Family+2']
+      },
+      {
+        id: 'praj_demo_3',
+        profileType: 'કન્યા',
+        fullName: 'પ્રજાપતિ દ્રષ્ટિબેન દિનેશભાઈ',
+        dob: '2002-12-05',
+        age: '23',
+        birthYear: '2002',
+        education: 'B.Sc IT / MCA Running',
+        occupation: 'Software Developer',
+        monthlyIncome: '₹ 45,000 / મહિને',
+        maritalStatus: 'અપરિણીત',
+        caste: 'પ્રજાપતિ',
+        nativeVillage: 'ગાંધીનગર',
+        mosal: 'અડાલજ',
+        mobileNumber: '9723311223',
+        religion: 'હિન્દુ',
+        physicalAttr: 'ઊંચાઈ 5\'3", આકર્ષક વ્યક્તિત્વ',
+        fatherName: 'દિનેશભાઈ પ્રજાપતિ',
+        fatherOcc: 'કોન્ટ્રાક્ટર',
+        motherName: 'પુષ્પાબેન',
+        motherOcc: 'શિક્ષિકા',
+        brothers: '૧ ભાઈ (ભણે છે)',
+        sisters: '૧ બહેન',
+        totalFamily: '૫ સભ્યો',
+        fullAddress: '૭૮, સેક્ટર-૨૪, ગાંધીનગર',
+        contactPhone: '9723311223',
+        notes: 'ટેકનોલોજી ક્ષેત્રે કારકિર્દી બનાવતી સંસ્કારી યુવતી.',
+        photos: ['https://placehold.co/600x800/1c1917/f59e0b?text=Drishti+Prajapati+1']
+      },
+      {
+        id: 'praj_demo_4',
+        profileType: 'વર',
+        fullName: 'પ્રજાપતિ ચિરાગકુમાર અશ્વિનભાઈ',
+        dob: '1996-03-11',
+        age: '30',
+        birthYear: '1996',
+        education: 'Diploma in Civil & Builder',
+        occupation: 'Construction & Real Estate',
+        monthlyIncome: '₹ 1,20,000 / મહિને',
+        maritalStatus: 'અપરિણીત',
+        caste: 'પ્રજાપતિ',
+        nativeVillage: 'પાટણ',
+        mosal: 'સಿದ್ದપુર',
+        mobileNumber: '9925544332',
+        religion: 'હિન્દુ',
+        physicalAttr: 'ઊંચાઈ 5\'9", સ્વસ્થ બાંધો',
+        fatherName: 'અશ્વિનભાઈ પ્રજાપતિ',
+        fatherOcc: 'બિલ્ડર અને વેપારી',
+        motherName: 'મંજુલાબેન',
+        motherOcc: 'ગૃહિણી',
+        brothers: '૨ ભાઈ (બિઝનેસમાં સાથે)',
+        sisters: 'કોઈ નહીં',
+        totalFamily: '૬ સભ્યો',
+        fullAddress: 'હેમચંદ્રાચાર્ય રોડ, પાટણ',
+        contactPhone: '9925544332',
+        notes: 'પાટણમાં પોતાનો મોટો વ્યવસાય છે.',
+        photos: ['https://placehold.co/600x800/1c1917/f59e0b?text=Chirag+Prajapati+1']
+      },
+      {
+        id: 'praj_demo_5',
+        profileType: 'કન્યા',
+        fullName: 'પ્રજાપતિ કિંજલબેન જગદીશભાઈ',
+        dob: '2000-11-19',
+        age: '26',
+        birthYear: '2000',
+        education: 'GNM Nursing',
+        occupation: 'Staff Nurse (Hospital)',
+        monthlyIncome: '₹ 30,000 / મહિને',
+        maritalStatus: 'અપરિણીત',
+        caste: 'પ્રજાપતિ',
+        nativeVillage: 'વડોદરા',
+        mosal: 'આણંદ',
+        mobileNumber: '9898112233',
+        religion: 'હિન્દુ',
+        physicalAttr: 'ઊંચાઈ 5\'2", સરળ સ્વભાવ',
+        fatherName: 'જગદીશભાઈ પ્રજાપતિ',
+        fatherOcc: 'પ્રાઇવેટ નોકરી',
+        motherName: 'ભાવનાબેન',
+        motherOcc: 'ગૃહિણી',
+        brothers: '૧ ભાઈ',
+        sisters: '૧ બહેન',
+        totalFamily: '૪ સભ્યો',
+        fullAddress: 'માનપરસ સોસાયટી, વાઘોડિયા રોડ, વડોદરા',
+        contactPhone: '9898112233',
+        notes: 'મેડિકલ ક્ષેત્રે સેવારત સંસ્કારી કન્યા.',
+        photos: ['https://placehold.co/600x800/1c1917/f59e0b?text=Kinjal+Prajapati+1']
       }
     ];
 
-    const INITIAL_MEMBERS = [
-      { mobile: '9825134912', birthYear: '2000', name: 'પૂજા રમેશભાઈ પ્રજાપતિ', active: true },
-      { mobile: '9428081234', birthYear: '1998', name: 'હર્ષિલ જયંતીભાઈ પ્રજાપતિ', active: true },
-      { mobile: '9825011223', birthYear: '1975', name: 'રમેશભાઈ પ્રજાપતિ (કુટુંબ વડા)', active: true }
-    ];
-
-    const ADMIN_MASTER_PIN = '7799';
-
-    let state = {
-      profiles: [...INITIAL_PROFILES],
-      members: [...INITIAL_MEMBERS],
-      auth: {
-        role: 'guest',
-        memberInfo: null
-      },
-      filters: {
-        gender: 'all',
-        marital: 'all',
-        native: 'all',
-        search: ''
-      },
-      selectedProfile: null,
-      gallery: {
-        photos: [],
-        currentIndex: 0
-      },
-      currentUser: null,
-      cloudConnected: false
-    };
-
-    const profilesGrid = document.getElementById('profilesGrid');
-    const emptyState = document.getElementById('emptyState');
-    const profileCount = document.getElementById('profileCount');
-    const authStatusContainer = document.getElementById('authStatusContainer');
-    const roleBanner = document.getElementById('roleBanner');
-    const roleBannerIcon = document.getElementById('roleBannerIcon');
-    const roleBannerText = document.getElementById('roleBannerText');
-    const bannerActionContainer = document.getElementById('bannerActionContainer');
-    const adminControlBar = document.getElementById('adminControlBar');
-    const cloudSyncLabel = document.getElementById('cloudSyncLabel');
-
-    const memberLoginModal = document.getElementById('memberLoginModal');
-    const adminLoginModal = document.getElementById('adminLoginModal');
-    const manageMembersModal = document.getElementById('manageMembersModal');
-    const uploadModal = document.getElementById('uploadModal');
-    const detailsModal = document.getElementById('detailsModal');
-    const photoLightboxModal = document.getElementById('photoLightboxModal');
-
-    let toastTimeout;
-    function showToast(message, iconClass = 'ph-bold ph-info') {
-      const toast = document.getElementById('toast');
-      const toastMessage = document.getElementById('toastMessage');
-      const toastIcon = document.getElementById('toastIcon');
-      if (!toast) return;
-
-      if (toastMessage) toastMessage.textContent = message;
-      if (toastIcon) toastIcon.className = `${iconClass} text-amber-400 text-sm`;
-
-      toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
-      toast.classList.add('translate-y-0', 'opacity-100');
-
-      clearTimeout(toastTimeout);
-      toastTimeout = setTimeout(() => {
-        toast.classList.remove('translate-y-0', 'opacity-100');
-        toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
-      }, 3200);
-    }
-
-    window.openMemberLoginModal = () => {
-      memberLoginModal.classList.remove('hidden');
-      document.getElementById('loginMobileInput').value = '';
-      document.getElementById('loginBirthYearInput').value = '';
-    };
-
-    window.closeMemberLoginModal = () => {
-      memberLoginModal.classList.add('hidden');
-    };
-
-    window.quickFillMember = (mobile, year) => {
-      document.getElementById('loginMobileInput').value = mobile;
-      document.getElementById('loginBirthYearInput').value = year;
-    };
-
-    window.openAdminLoginModal = () => {
-      adminLoginModal.classList.remove('hidden');
-      document.getElementById('adminPinInput').value = '';
-    };
-
-    window.closeAdminLoginModal = () => {
-      adminLoginModal.classList.add('hidden');
-    };
-
-    window.openUploadModal = () => {
-      if (uploadModal) uploadModal.classList.remove('hidden');
-    };
-
-    window.closeUploadModal = () => {
-      if (uploadModal) uploadModal.classList.add('hidden');
-    };
-
-    window.closeDetailsModal = () => {
-      if (detailsModal) detailsModal.classList.add('hidden');
-    };
-
-    window.openManageMembersModal = () => {
-      if (state.auth.role !== 'admin') {
-        showToast('Only Admin can manage registered member accounts.');
-        return;
+    async function initFirebase() {
+      try {
+        app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        db = getFirestore(app);
+        await signInAnonymously(auth);
+        console.log("Firebase connected successfully.");
+        await fetchProfilesFromCloud();
+      } catch (err) {
+        console.warn("Firebase cloud connection fallback to local storage:", err);
+        loadLocalFallback();
       }
-      renderMembersList();
-      manageMembersModal.classList.remove('hidden');
-    };
-
-    window.closeManageMembersModal = () => {
-      manageMembersModal.classList.add('hidden');
-    };
-
-    function compressImageFile(file, maxWidth = 550, quality = 0.80) {
-      return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const img = new Image();
-          img.onload = () => {
-            let width = img.width;
-            let height = img.height;
-            if (width > height) {
-              if (width > maxWidth) {
-                height = Math.round((height * maxWidth) / width);
-                width = maxWidth;
-              }
-            } else {
-              if (height > maxWidth) {
-                width = Math.round((width * maxWidth) / height);
-                height = maxWidth;
-              }
-            }
-            const canvas = document.createElement('canvas');
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
-            resolve(canvas.toDataURL('image/jpeg', quality));
-          };
-          img.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-      });
     }
 
-    const filePhoto1 = document.getElementById('filePhoto1');
-    const filePhoto2 = document.getElementById('filePhoto2');
-    const filePhoto3 = document.getElementById('filePhoto3');
-
-    if (filePhoto1) {
-      filePhoto1.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const compressed = await compressImageFile(file);
-        document.getElementById('previewPhoto1').src = compressed;
-        showToast('૧. મુખ્ય ફોટો તૈયાર છે!', 'ph-bold ph-check');
-      });
-    }
-
-    if (filePhoto2) {
-      filePhoto2.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const compressed = await compressImageFile(file);
-        document.getElementById('previewPhoto2').src = compressed;
-        showToast('૨. ફુલ સાઈઝ ફોટો તૈયાર છે!', 'ph-bold ph-check');
-      });
-    }
-
-    if (filePhoto3) {
-      filePhoto3.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const compressed = await compressImageFile(file);
-        document.getElementById('previewPhoto3').src = compressed;
-        showToast('૩. ટ્રેડિશનલ ફોટો તૈયાર છે!', 'ph-bold ph-check');
-      });
-    }
-
-    ['1', '2', '3'].forEach(num => {
-      const urlInput = document.getElementById(`urlPhoto${num}`);
-      if (urlInput) {
-        urlInput.addEventListener('input', (e) => {
-          const val = e.target.value.trim();
-          if (val.startsWith('http://') || val.startsWith('https://')) {
-            document.getElementById(`previewPhoto${num}`).src = val;
+    async function fetchProfilesFromCloud() {
+      try {
+        const querySnapshot = await getDocs(collection(db, "artifacts", "prajapati-matrimony-1", "public", "data", "profiles"));
+        if (querySnapshot.empty) {
+          // Seed demo profiles into cloud
+          for (let p of seedProfiles) {
+            await setDoc(doc(db, "artifacts", "prajapati-matrimony-1", "public", "data", "profiles", p.id), p);
           }
-        });
-      }
-    });
-
-    window.openPhotoGallery = (startIndex = 0) => {
-      let photos = [];
-      if (state.selectedProfile && Array.isArray(state.selectedProfile.photos) && state.selectedProfile.photos.length > 0) {
-        photos = state.selectedProfile.photos.filter(p => p && p.trim().length > 0);
-      } else if (state.selectedProfile && state.selectedProfile.photo) {
-        photos = [state.selectedProfile.photo];
-      }
-
-      if (photos.length === 0) {
-        showToast('ફોટો ઉપલબ્ધ નથી');
-        return;
-      }
-
-      state.gallery = {
-        photos,
-        currentIndex: (startIndex >= 0 && startIndex < photos.length) ? startIndex : 0
-      };
-
-      updateLightboxView();
-      photoLightboxModal.classList.remove('hidden');
-    };
-
-    window.closePhotoGallery = () => {
-      photoLightboxModal.classList.add('hidden');
-    };
-
-    window.nextGalleryPhoto = () => {
-      if (state.gallery.photos.length <= 1) return;
-      state.gallery.currentIndex = (state.gallery.currentIndex + 1) % state.gallery.photos.length;
-      updateLightboxView();
-    };
-
-    window.prevGalleryPhoto = () => {
-      if (state.gallery.photos.length <= 1) return;
-      state.gallery.currentIndex = (state.gallery.currentIndex - 1 + state.gallery.photos.length) % state.gallery.photos.length;
-      updateLightboxView();
-    };
-
-    function updateLightboxView() {
-      const img = document.getElementById('lightboxMainImage');
-      const counter = document.getElementById('lightboxCounter');
-      const cur = state.gallery.currentIndex;
-      const total = state.gallery.photos.length;
-
-      img.src = state.gallery.photos[cur];
-      counter.textContent = `ફોટો ${cur + 1} / ${total}`;
-
-      const lightboxWatermark = document.getElementById('lightboxWatermarkOverlay');
-      const lightboxWatermarkText = document.getElementById('lightboxWatermarkText');
-      if (state.auth.role === 'member' || state.auth.role === 'admin') {
-        lightboxWatermark.classList.remove('hidden');
-        const vName = state.auth.memberInfo?.name || 'MEMBER';
-        const vMobile = state.auth.memberInfo?.mobile || 'CONFIDENTIAL';
-        lightboxWatermarkText.innerHTML = `
-          CONFIDENTIAL • VIEWED BY: ${vName.toUpperCase()} (${vMobile})<br>
-          PRAJAPATI MATRIMONY • DO NOT SCREENSHOT
-        `;
-      } else {
-        lightboxWatermark.classList.add('hidden');
+          profiles = [...seedProfiles];
+        } else {
+          profiles = [];
+          querySnapshot.forEach((doc) => {
+            profiles.push(doc.data());
+          });
+        }
+        renderProfiles(profiles);
+      } catch (err) {
+        console.error("Error fetching profiles:", err);
+        loadLocalFallback();
       }
     }
 
-    window.addEventListener('keydown', (e) => {
-      if (!photoLightboxModal.classList.contains('hidden')) {
-        if (e.key === 'ArrowRight') window.nextGalleryPhoto();
-        if (e.key === 'ArrowLeft') window.prevGalleryPhoto();
-        if (e.key === 'Escape') window.closePhotoGallery();
+    function loadLocalFallback() {
+      const local = localStorage.getItem('prajapati_profiles');
+      if (local) {
+        profiles = JSON.parse(local);
+      } else {
+        profiles = [...seedProfiles];
+        localStorage.setItem('prajapati_profiles', JSON.stringify(profiles));
       }
-    });
+      renderProfiles(profiles);
+    }
 
-    async function initializeCloudSync() {
-      if (!auth || !db) {
-        console.warn("Firebase not fully configured. Operating in robust local demo mode.");
-        if (cloudSyncLabel) cloudSyncLabel.textContent = 'Local Session Mode';
-        renderProfiles();
-        renderMembersList();
-        return;
+    // Global Exposure
+    window.switchTab = function(tab) {
+      if (tab === 'explore') {
+        document.getElementById('tabExplore').classList.remove('hidden');
+        document.getElementById('tabRegister').classList.add('hidden');
+        document.getElementById('navExploreBtn').className = "px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold bg-amber-500 text-stone-950 shadow transition flex items-center space-x-1.5";
+        document.getElementById('navRegisterBtn').className = "px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold bg-stone-800 hover:bg-stone-700 text-stone-200 border border-stone-700 transition flex items-center space-x-1.5";
+      } else {
+        document.getElementById('tabExplore').classList.add('hidden');
+        document.getElementById('tabRegister').classList.remove('hidden');
+        document.getElementById('navRegisterBtn').className = "px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold bg-amber-500 text-stone-950 shadow transition flex items-center space-x-1.5";
+        document.getElementById('navExploreBtn').className = "px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold bg-stone-800 hover:bg-stone-700 text-stone-200 border border-stone-700 transition flex items-center space-x-1.5";
       }
+    }
+
+    window.calculateAge = function(dobVal) {
+      if (!dobVal) return;
+      const birthDate = new Date(dobVal);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      document.getElementById('inputAge').value = age > 0 ? age : '';
+    }
+
+    window.handleImageUpload = function(event, slot) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const base64 = e.target.result;
+        uploadedImages[slot] = base64;
+        const imgEl = document.getElementById(`preview${slot}`);
+        imgEl.src = base64;
+        imgEl.classList.remove('hidden');
+        document.getElementById(`label${slot}`).classList.add('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    window.handleBiodataSubmit = async function(event) {
+      event.preventDefault();
+      const form = event.target;
+      const formData = new FormData(form);
+
+      const photosList = [];
+      if (uploadedImages[1]) photosList.push(uploadedImages[1]);
+      if (uploadedImages[2]) photosList.push(uploadedImages[2]);
+      if (uploadedImages[3]) photosList.push(uploadedImages[3]);
+      if (photosList.length === 0) {
+        photosList.push('https://placehold.co/600x800/1c1917/f59e0b?text=Prajapati+Matrimony');
+      }
+
+      const newProfile = {
+        id: 'praj_' + Date.now(),
+        profileType: formData.get('profileType'),
+        fullName: formData.get('fullName'),
+        dob: formData.get('dob'),
+        age: formData.get('age'),
+        birthYear: formData.get('birthYear'),
+        education: formData.get('education'),
+        occupation: formData.get('occupation'),
+        monthlyIncome: formData.get('monthlyIncome'),
+        maritalStatus: formData.get('maritalStatus'),
+        caste: formData.get('caste'),
+        nativeVillage: formData.get('nativeVillage'),
+        mosal: formData.get('mosal'),
+        mobileNumber: formData.get('mobileNumber'),
+        religion: formData.get('religion'),
+        physicalAttr: formData.get('physicalAttr'),
+        fatherName: formData.get('fatherName'),
+        fatherOcc: formData.get('fatherOcc'),
+        motherName: formData.get('motherName'),
+        motherOcc: formData.get('motherOcc'),
+        brothers: formData.get('brothers'),
+        sisters: formData.get('sisters'),
+        totalFamily: formData.get('totalFamily'),
+        fullAddress: formData.get('fullAddress'),
+        contactPhone: formData.get('contactPhone'),
+        notes: formData.get('notes'),
+        photos: photosList
+      };
 
       try {
-        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-          await signInWithCustomToken(auth, __initial_auth_token);
-        } else {
-          await signInAnonymously(auth);
+        if (db) {
+          await setDoc(doc(db, "artifacts", "prajapati-matrimony-1", "public", "data", "profiles", newProfile.id), newProfile);
         }
+        profiles.unshift(newProfile);
+        localStorage.setItem('prajapati_profiles', JSON.stringify(profiles));
+        showToast('તમારો બાયોડેટા સફળતાપૂર્વક સબમિટ થઈ ગયો છે!');
+        form.reset();
+        uploadedImages = { 1: '', 2: '', 3: '' };
+        for(let i=1; i<=3; i++) {
+          document.getElementById(`preview${i}`).classList.add('hidden');
+          document.getElementById(`label${i}`).classList.remove('hidden');
+        }
+        switchTab('explore');
+        renderProfiles(profiles);
       } catch (err) {
-        console.warn('Authentication fallback notice:', err);
+        console.error("Save error:", err);
+        showToast('સબમિટ કરવામાં ભૂલ આવી. ફરી પ્રયાસ કરો.');
       }
-
-      onAuthStateChanged(auth, (user) => {
-        if (!user) return;
-        state.currentUser = user;
-        state.cloudConnected = true;
-        if (cloudSyncLabel) cloudSyncLabel.textContent = 'Cloud Global Active';
-
-        const profilesColl = collection(db, 'artifacts', appId, 'public', 'data', 'profiles');
-        onSnapshot(profilesColl, (snapshot) => {
-          if (snapshot.empty) {
-            INITIAL_PROFILES.forEach((p) => {
-              setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'profiles', p.id), p);
-            });
-          } else {
-            const list = [];
-            snapshot.forEach(docSnap => {
-              const data = docSnap.data();
-              if (!data.photos || !Array.isArray(data.photos)) {
-                data.photos = data.photo ? [data.photo] : [];
-              }
-              list.push({ id: docSnap.id, ...data });
-            });
-            list.sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
-            state.profiles = list;
-            renderProfiles();
-          }
-        }, (error) => {
-          console.warn('Cloud profiles fallback to local state:', error);
-        });
-
-        const membersColl = collection(db, 'artifacts', appId, 'public', 'data', 'members');
-        onSnapshot(membersColl, (snapshot) => {
-          if (snapshot.empty) {
-            INITIAL_MEMBERS.forEach((m) => {
-              setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'members', m.mobile), m);
-            });
-          } else {
-            const mems = [];
-            snapshot.forEach(docSnap => {
-              mems.push({ ...docSnap.data(), mobile: docSnap.id });
-            });
-            state.members = mems;
-            renderMembersList();
-          }
-        }, (error) => {
-          console.warn('Cloud members fallback to local state:', error);
-        });
-      });
     }
 
-    const memberLoginForm = document.getElementById('memberLoginForm');
-    memberLoginForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const enteredMobile = document.getElementById('loginMobileInput').value.trim().replace(/[^0-9]/g, '');
-      const enteredYear = document.getElementById('loginBirthYearInput').value.trim();
+    function renderProfiles(list) {
+      const grid = document.getElementById('profilesGrid');
+      grid.innerHTML = '';
 
-      const matchedMember = state.members.find(m => {
-        const cleanPhone = (m.mobile || '').replace(/[^0-9]/g, '');
-        return (cleanPhone.endsWith(enteredMobile) || enteredMobile.endsWith(cleanPhone)) &&
-               String(m.birthYear).trim() === enteredYear &&
-               m.active !== false;
-      });
-
-      const matchedProfile = state.profiles.find(p => {
-        const cleanPhone = (p.mobile || p.contactPhone || '').replace(/[^0-9]/g, '');
-        const birthYear = p.dob ? p.dob.split('-')[0] : '';
-        return (cleanPhone.endsWith(enteredMobile) || enteredMobile.endsWith(cleanPhone)) &&
-               birthYear === enteredYear;
-      });
-
-      if (matchedMember) {
-        state.auth = {
-          role: 'member',
-          memberInfo: matchedMember
-        };
-        closeMemberLoginModal();
-        updateAuthUI();
-        showToast(`સ્વાગત છે, ${matchedMember.name}! બધી વિગતો અનલોક થઈ ગઈ.`);
-      } else if (matchedProfile) {
-        const autoMember = {
-          name: matchedProfile.name,
-          mobile: enteredMobile,
-          birthYear: enteredYear,
-          active: true
-        };
-        state.auth = {
-          role: 'member',
-          memberInfo: autoMember
-        };
-        closeMemberLoginModal();
-        updateAuthUI();
-        showToast(`સ્વાગત છે, ${matchedProfile.name}! બધી વિગતો અનલોક થઈ ગઈ.`);
-      } else {
-        showToast('અમાન્ય મોબાઈલ નંબર અથવા જન્મ વર્ષ. કૃપા કરી ચકાસો.');
-      }
-    });
-
-    const adminLoginForm = document.getElementById('adminLoginForm');
-    adminLoginForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const pin = document.getElementById('adminPinInput').value.trim();
-
-      if (pin === ADMIN_MASTER_PIN) {
-        state.auth = {
-          role: 'admin',
-          memberInfo: { name: 'Samaj Committee Admin', mobile: 'ADMIN' }
-        };
-        closeAdminLoginModal();
-        updateAuthUI();
-        showToast('Admin mode unlocked successfully!');
-      } else {
-        showToast('ખોટો Admin PIN. (Incorrect PIN)');
-      }
-    });
-
-    window.logoutRole = () => {
-      state.auth = {
-        role: 'guest',
-        memberInfo: null
-      };
-      updateAuthUI();
-      showToast('Switched back to Guest Mode.');
-    };
-
-    function updateAuthUI() {
-      const { role, memberInfo } = state.auth;
-
-      if (role === 'guest') {
-        authStatusContainer.innerHTML = `
-          <button onclick="openMemberLoginModal()" class="flex items-center space-x-1.5 bg-brand-800 hover:bg-brand-900 border border-brand-500/60 text-xs px-3 py-1.5 rounded-full transition shadow-sm">
-            <i class="ph-bold ph-sign-in text-amber-300"></i>
-            <span>Member Login</span>
-          </button>
-        `;
-        roleBanner.className = 'bg-amber-50 border-b border-amber-200 px-4 py-2.5 text-xs text-amber-900 transition';
-        roleBannerIcon.className = 'ph-fill ph-lock-key text-amber-700 text-base shrink-0';
-        roleBannerText.innerHTML = `<strong>Guest Mode:</strong> Candidate photos and names are visible. Sensitive contact numbers, native & family details require Member Login.`;
-        bannerActionContainer.innerHTML = `
-          <button onclick="openMemberLoginModal()" class="bg-brand-700 hover:bg-brand-800 text-white font-semibold text-xs px-3 py-1 rounded-lg shadow-sm">
-            Login (મોબાઈલ + જન્મ વર્ષ)
-          </button>
-        `;
-        adminControlBar.classList.add('hidden');
-
-      } else if (role === 'member') {
-        authStatusContainer.innerHTML = `
-          <div class="flex items-center space-x-1.5 bg-emerald-900/90 text-emerald-200 border border-emerald-500/50 text-xs px-2.5 py-1 rounded-full">
-            <i class="ph-bold ph-shield-check text-emerald-400"></i>
-            <span class="font-semibold text-white truncate max-w-[100px] sm:max-w-none">${memberInfo.name}</span>
-          </div>
-          <button onclick="logoutRole()" title="Log Out" class="text-stone-300 hover:text-white p-1 rounded-full text-sm">
-            <i class="ph-bold ph-sign-out"></i>
-          </button>
-        `;
-        roleBanner.className = 'bg-emerald-50 border-b border-emerald-200 px-4 py-2 text-xs text-emerald-950 transition';
-        roleBannerIcon.className = 'ph-fill ph-check-circle text-emerald-700 text-base shrink-0';
-        roleBannerText.innerHTML = `<strong>સક્રિય સભ્ય:</strong> સંપૂર્ણ બાયોડેટા અનલોક થયેલ છે: <strong>${memberInfo.name}</strong> (${memberInfo.mobile}).`;
-        bannerActionContainer.innerHTML = `
-          <button onclick="logoutRole()" class="text-xs font-semibold text-emerald-800 hover:underline">
-            Log Out
-          </button>
-        `;
-        adminControlBar.classList.add('hidden');
-
-      } else if (role === 'admin') {
-        authStatusContainer.innerHTML = `
-          <div class="flex items-center space-x-1.5 bg-purple-950 text-purple-200 border border-purple-400/50 text-xs px-2.5 py-1 rounded-full">
-            <i class="ph-bold ph-shield-star text-amber-400"></i>
-            <span class="font-semibold text-amber-300">Admin</span>
-          </div>
-          <button onclick="logoutRole()" title="Log Out" class="text-stone-300 hover:text-white p-1 rounded-full text-sm">
-            <i class="ph-bold ph-sign-out"></i>
-          </button>
-        `;
-        roleBanner.className = 'bg-purple-50 border-b border-purple-200 px-4 py-2 text-xs text-purple-950 transition';
-        roleBannerIcon.className = 'ph-fill ph-shield-star text-purple-700 text-base shrink-0';
-        roleBannerText.innerHTML = `<strong>Samaj Committee Admin:</strong> Full permissions active. You can verify candidates and manage member accounts.`;
-        bannerActionContainer.innerHTML = `
-          <button onclick="openManageMembersModal()" class="text-xs font-semibold text-purple-800 hover:underline">
-            Manage Members
-          </button>
-        `;
-        adminControlBar.classList.remove('hidden');
-      }
-
-      renderProfiles();
-    }
-
-    function renderMembersList() {
-      const container = document.getElementById('membersListContainer');
-      if (!container) return;
-      container.innerHTML = state.members.map(item => `
-        <div class="p-3 bg-stone-50 rounded-xl border ${item.active ? 'border-stone-200' : 'border-rose-200 bg-rose-50/50'} flex items-center justify-between">
-          <div>
-            <div class="flex items-center space-x-2">
-              <span class="font-bold text-stone-800">${item.name}</span>
-              <span class="font-mono text-[10px] px-1.5 py-0.5 rounded font-bold bg-amber-100 text-amber-900">
-                Year: ${item.birthYear}
-              </span>
-            </div>
-            <p class="text-[11px] text-stone-500 mt-0.5">Mobile: <strong class="text-stone-700">${item.mobile}</strong></p>
-          </div>
-          <div>
-            <button onclick="toggleMemberStatus('${item.mobile}')" class="text-xs font-semibold px-2.5 py-1 rounded-lg transition ${item.active ? 'bg-rose-100 text-rose-700 hover:bg-rose-200' : 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200'}">
-              ${item.active ? 'Disable' : 'Enable'}
-            </button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    window.toggleMemberStatus = async (mobile) => {
-      const target = state.members.find(m => m.mobile === mobile);
-      if (!target) return;
-      const newStatus = !target.active;
-
-      if (state.currentUser && db) {
-        try {
-          const memberDoc = doc(db, 'artifacts', appId, 'public', 'data', 'members', mobile);
-          await updateDoc(memberDoc, { active: newStatus });
-          showToast(`Account ${mobile} status updated`);
-        } catch (e) {
-          target.active = newStatus;
-          renderMembersList();
-        }
-      } else {
-        target.active = newStatus;
-        renderMembersList();
-      }
-    };
-
-    const createMemberForm = document.getElementById('createMemberForm');
-    createMemberForm.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const name = document.getElementById('newMemberName').value.trim();
-      const mobile = document.getElementById('newMemberPhone').value.trim().replace(/[^0-9]/g, '');
-      const birthYear = document.getElementById('newMemberBirthYear').value.trim();
-
-      const newEntry = { name, mobile, birthYear, active: true };
-
-      if (state.currentUser && db) {
-        try {
-          await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'members', mobile), newEntry);
-          showToast(`Member ${name} saved to Cloud!`);
-        } catch (err) {
-          state.members.unshift(newEntry);
-        }
-      } else {
-        state.members.unshift(newEntry);
-      }
-
-      createMemberForm.reset();
-      renderMembersList();
-    });
-
-    function getFilteredProfiles() {
-      return state.profiles.filter(p => {
-        if (state.filters.gender !== 'all' && p.gender !== state.filters.gender) {
-          return false;
-        }
-        if (state.filters.marital !== 'all' && p.marital !== state.filters.marital) {
-          return false;
-        }
-        if (state.filters.native !== 'all' && p.native.toLowerCase() !== state.filters.native.toLowerCase()) {
-          return false;
-        }
-        if (state.filters.search) {
-          const q = state.filters.search.toLowerCase();
-          const matchName = (p.name || '').toLowerCase().includes(q);
-          const matchEdu = (p.education || '').toLowerCase().includes(q);
-          const matchOcc = (p.occupation || '').toLowerCase().includes(q);
-          const matchNative = (p.native || '').toLowerCase().includes(q);
-          if (!matchName && !matchEdu && !matchOcc && !matchNative) return false;
-        }
-        return true;
-      });
-    }
-
-    function renderProfiles() {
-      const filtered = getFilteredProfiles();
-      profileCount.textContent = filtered.length;
-
-      if (filtered.length === 0) {
-        profilesGrid.innerHTML = '';
-        emptyState.classList.remove('hidden');
+      if (list.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-12 text-stone-500 gujarati-text">કોઈ બાયોડેટા મળ્યા નથી.</div>`;
         return;
       }
 
-      emptyState.classList.add('hidden');
-      profilesGrid.innerHTML = filtered.map(profile => {
-        const isGuest = state.auth.role === 'guest';
-        const isAdmin = state.auth.role === 'admin';
-        const photos = (Array.isArray(profile.photos) && profile.photos.length > 0) ? profile.photos : [profile.photo];
-        const primaryPhoto = photos[0] || 'https://placehold.co/400x400/f5ebe0/5f1215?text=Photo';
-        const photoCountBadge = photos.length > 1 ? `<span class="bg-black/70 text-white text-[10px] px-1.5 py-0.5 rounded flex items-center gap-0.5"><i class="ph-bold ph-images"></i> ${photos.length}</span>` : '';
+      list.forEach(p => {
+        const isMemberOrAdmin = currentSession && (currentSession.role === 'member' || currentSession.role === 'admin');
+        const badgeColor = p.profileType === 'કન્યા' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-blue-500/10 text-blue-400 border-blue-500/20';
 
-        return `
-          <div class="bg-white rounded-2xl border border-stone-200 shadow-sm hover:shadow-md transition overflow-hidden flex flex-col justify-between">
-            <div>
-              <div class="relative h-64 sm:h-56 bg-stone-100 overflow-hidden group cursor-pointer" onclick="quickOpenProfileGallery('${profile.id}', 0)" title="ક્લિક કરો - ફોટો મોટો જુઓ">
-                <img src="${primaryPhoto}" alt="${profile.name}" 
-                     class="w-full h-full object-cover transition duration-300 group-hover:scale-105"
-                     onerror="this.src='https://placehold.co/400x400/f5ebe0/5f1215?text=${encodeURIComponent(profile.name)}'">
-                
-                <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
-                  <span class="bg-stone-900/80 text-white text-[11px] font-semibold px-2.5 py-1 rounded-full flex items-center gap-1 shadow">
-                    <i class="ph-bold ph-magnifying-glass-plus"></i> મોટો ફોટો જુઓ
-                  </span>
-                </div>
+        const card = document.createElement('div');
+        card.className = "bg-stone-900 border border-stone-800 rounded-3xl overflow-hidden shadow-xl flex flex-col justify-between transition hover:border-amber-500/40";
+        
+        card.innerHTML = `
+          <div class="relative h-64 sm:h-72 bg-stone-950 overflow-hidden cursor-pointer" onclick="openDetail('${p.id}')">
+            <img src="${p.photos[0]}" alt="${p.fullName}" class="w-full h-full object-cover transition duration-300 hover:scale-105" onerror="this.src='https://placehold.co/600x800/1c1917/f59e0b?text=Prajapati'">
+            <div class="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold border ${badgeColor} backdrop-blur-md gujarati-text">
+              ${p.profileType}
+            </div>
+            <div class="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg bg-black/70 text-[11px] text-stone-300 backdrop-blur-md font-mono">
+              <i class="ph-bold ph-images"></i> ${p.photos.length} ફોટો
+            </div>
+          </div>
 
-                <div class="absolute top-2.5 left-2.5 flex flex-wrap gap-1.5">
-                  <span class="px-2 py-0.5 rounded-md text-[11px] font-bold shadow-sm ${profile.gender === 'Female' ? 'bg-pink-100 text-pink-800' : 'bg-blue-100 text-blue-800'}">
-                    ${profile.gender === 'Female' ? 'કન્યા (Bride)' : 'વર (Groom)'}
-                  </span>
-                  <span class="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-stone-900/75 text-white shadow-sm">
-                    ${(profile.marital || '').split(' ')[0]}
-                  </span>
-                  ${photoCountBadge}
-                </div>
-
-                ${isAdmin ? `
-                  <div class="absolute top-2.5 right-2.5 bg-purple-900/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-md shadow">
-                    Admin
-                  </div>
-                ` : ''}
-
-                <div class="absolute bottom-2.5 left-2.5 bg-black/70 backdrop-blur-xs text-white text-[11px] px-2.5 py-1 rounded-full flex items-center space-x-1">
-                  <i class="ph ph-map-pin text-amber-300"></i>
-                  <span>મૂળ: ${profile.native}</span>
-                </div>
-              </div>
-
-              <div class="p-4">
-                <div class="flex items-start justify-between gap-1">
-                  <h3 class="font-bold text-stone-800 text-sm leading-snug truncate" title="${profile.name}">${profile.name}</h3>
-                  <span class="text-xs font-semibold text-brand-700 bg-brand-50 px-2 py-0.5 rounded-full shrink-0">
-                    ${profile.age} વર્ષ
-                  </span>
-                </div>
-
-                <div class="mt-3 text-xs space-y-1.5 relative">
-                  ${isGuest ? `
-                    <div class="space-y-1.5 blur-data">
-                      <p class="text-stone-600"><strong>શિક્ષણ:</strong> B.Pharm, M.Pharm</p>
-                      <p class="text-stone-600"><strong>વ્યવસાય:</strong> Corporate Specialist</p>
-                      <p class="text-stone-600"><strong>મોસાળ:</strong> પાટણ વિસનગર કુટુંબ</p>
-                    </div>
-                    <div class="absolute inset-0 bg-white/70 backdrop-blur-[2px] rounded-lg flex flex-col items-center justify-center text-center p-2">
-                      <div class="w-7 h-7 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center mb-1">
-                        <i class="ph-bold ph-lock-key"></i>
-                      </div>
-                      <span class="font-bold text-[11px] text-stone-800">સુરક્ષિત વિગતો (Protected)</span>
-                      <button onclick="openMemberLoginModal()" class="text-[10px] text-brand-700 hover:underline font-semibold mt-0.5">
-                        મોબાઈલ નં. + જન્મ વર્ષ વડે લોગિન
-                      </button>
-                    </div>
-                  ` : `
-                    <div class="text-stone-700 space-y-1">
-                      <div class="flex items-center text-stone-600">
-                        <i class="ph ph-graduation-cap w-4 text-brand-600 shrink-0"></i>
-                        <span class="ml-1 font-medium">શિક્ષણ:</span>
-                        <span class="ml-1 text-stone-800 truncate">${profile.education}</span>
-                      </div>
-                      <div class="flex items-center text-stone-600">
-                        <i class="ph ph-briefcase w-4 text-brand-600 shrink-0"></i>
-                        <span class="ml-1 font-medium">નોકરી:</span>
-                        <span class="ml-1 text-stone-800 truncate">${profile.occupation}</span>
-                      </div>
-                      <div class="flex items-center text-stone-600">
-                        <i class="ph ph-users w-4 text-brand-600 shrink-0"></i>
-                        <span class="ml-1 font-medium">મોસાળ:</span>
-                        <span class="ml-1 text-stone-800 truncate">${profile.mosal}</span>
-                      </div>
-                    </div>
-                  `}
-                </div>
+          <div class="p-5 space-y-4 flex-grow flex flex-col justify-between">
+            <div class="space-y-2">
+              <h3 class="text-base sm:text-lg font-bold text-white gujarati-text tracking-tight">${p.fullName}</h3>
+              
+              <div class="grid grid-cols-2 gap-2 text-xs text-stone-300 pt-1">
+                <div><strong class="text-stone-400">ઉંમર:</strong> ${p.age} વર્ષ</div>
+                <div><strong class="text-stone-400">શિક્ષણ:</strong> ${p.education}</div>
+                <div><strong class="text-stone-400">વ્યવસાય:</strong> ${p.occupation}</div>
+                <div><strong class="text-stone-400">વતન:</strong> ${p.nativeVillage}</div>
               </div>
             </div>
 
-            <div class="p-4 pt-0">
-              <div class="pt-3 border-t border-stone-100 flex items-center justify-between gap-2">
-                <button onclick="viewProfileDetails('${profile.id}')" class="flex-1 py-2 bg-stone-100 hover:bg-stone-200 text-stone-800 font-semibold text-xs rounded-xl flex items-center justify-center space-x-1 transition">
-                  <i class="ph ph-article"></i>
-                  <span>${isGuest ? 'સારાંશ જુઓ' : 'સંપૂર્ણ બાયોડેટા'}</span>
-                </button>
+            <div class="pt-3 border-t border-stone-800 flex items-center justify-between">
+              ${isMemberOrAdmin ? `
+                <a href="tel:${p.contactPhone}" onclick="event.stopPropagation()" class="px-3 py-2 bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 rounded-xl text-xs font-semibold flex items-center space-x-1 hover:bg-emerald-600/30 transition">
+                  <i class="ph-bold ph-phone"></i>
+                  <span>${p.contactPhone}</span>
+                </a>
+              ` : `
+                <div class="text-[11px] text-amber-400/90 flex items-center space-x-1 bg-amber-500/10 px-2.5 py-1.5 rounded-lg border border-amber-500/20 gujarati-text">
+                  <i class="ph-bold ph-lock-key text-xs"></i>
+                  <span>સંપર્ક નંબર લોગઈન બાદ દેખાશે</span>
+                </div>
+              `}
 
-                ${isAdmin ? `
-                  <button onclick="toggleVerification('${profile.id}')" title="વેરિફિકેશન બદલો" class="p-2 ${profile.verified ? 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100' : 'bg-stone-100 text-stone-500 hover:bg-stone-200'} rounded-xl text-sm transition">
-                    <i class="ph-bold ${profile.verified ? 'ph-check-circle' : 'ph-clock'}"></i>
-                  </button>
-                  <button onclick="deleteProfile('${profile.id}')" title="ડિલીટ કરો" class="p-2 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl text-sm transition">
-                    <i class="ph-bold ph-trash"></i>
-                  </button>
-                ` : ''}
-              </div>
+              <button onclick="openDetail('${p.id}')" class="px-3.5 py-2 bg-amber-500 hover:bg-amber-600 text-stone-950 font-bold rounded-xl text-xs transition gujarati-text">
+                પૂરી વિગત &rarr;
+              </button>
             </div>
           </div>
         `;
-      }).join('');
+        grid.appendChild(card);
+      });
     }
 
-    window.quickOpenProfileGallery = (profileId, photoIndex = 0) => {
-      const p = state.profiles.find(x => x.id === profileId);
-      if (!p) return;
-      state.selectedProfile = p;
-      openPhotoGallery(photoIndex);
-    };
+    window.applyFilters = function() {
+      const search = document.getElementById('filterSearch').value.toLowerCase();
+      const gender = document.getElementById('filterGender').value;
+      const native = document.getElementById('filterNative').value.toLowerCase();
 
-    window.viewProfileDetails = (profileId) => {
-      const profile = state.profiles.find(p => p.id === profileId);
-      if (!profile) return;
-      state.selectedProfile = profile;
+      const filtered = profiles.filter(p => {
+        const matchSearch = p.fullName.toLowerCase().includes(search) || p.education.toLowerCase().includes(search) || p.occupation.toLowerCase().includes(search);
+        const matchGender = gender === '' || p.profileType === gender;
+        const matchNative = native === '' || p.nativeVillage.toLowerCase().includes(native);
+        return matchSearch && matchGender && matchNative;
+      });
+      renderProfiles(filtered);
+    }
 
-      const photos = (Array.isArray(profile.photos) && profile.photos.length > 0) ? profile.photos : [profile.photo];
-      const primaryPhoto = photos[0] || 'https://placehold.co/400x400/f5ebe0/5f1215?text=Photo';
+    window.resetFilters = function() {
+      document.getElementById('filterSearch').value = '';
+      document.getElementById('filterGender').value = '';
+      document.getElementById('filterNative').value = '';
+      renderProfiles(profiles);
+    }
 
-      document.getElementById('modalName').textContent = profile.name;
-      document.getElementById('modalBasicSub').textContent = `${profile.age} વર્ષ • ${profile.gender === 'Female' ? 'કન્યા (Bride)' : 'વર (Groom)'} • ${profile.marital}`;
-      document.getElementById('modalPhoto').src = primaryPhoto;
+    // AUTH MODALS
+    window.openLoginModal = function() {
+      document.getElementById('loginModal').classList.remove('hidden');
+    }
+    window.closeLoginModal = function() {
+      document.getElementById('loginModal').classList.add('hidden');
+    }
+    window.openAdminModal = function() {
+      document.getElementById('adminModal').classList.remove('hidden');
+    }
+    window.closeAdminModal = function() {
+      document.getElementById('adminModal').classList.add('hidden');
+    }
 
-      const thumbnailsStrip = document.getElementById('modalThumbnailsStrip');
-      if (photos.length > 1) {
-        thumbnailsStrip.innerHTML = photos.map((pUrl, idx) => `
-          <div class="relative w-9 h-11 rounded-md overflow-hidden border ${idx === 0 ? 'border-brand-600 ring-1 ring-brand-500' : 'border-stone-300'} cursor-pointer hover:opacity-80" 
-               onclick="openPhotoGallery(${idx})" title="ફોટો ${idx + 1}">
-            <img src="${pUrl}" alt="Thumb ${idx + 1}" class="w-full h-full object-cover">
-          </div>
-        `).join('');
+    window.handleMemberLogin = function(event) {
+      event.preventDefault();
+      const mobile = document.getElementById('loginMobile').value.trim();
+      const pass = document.getElementById('loginPass').value.trim();
+
+      const found = profiles.find(p => p.mobileNumber === mobile && p.birthYear === pass);
+      if (found) {
+        currentSession = {
+          role: 'member',
+          name: found.fullName,
+          phone: found.mobileNumber
+        };
+        updateAuthUI();
+        closeLoginModal();
+        showToast(`સ્વાગત છે, ${found.fullName}! (સભ્ય લોગઈન સફળ)`);
+        renderProfiles(profiles);
       } else {
-        thumbnailsStrip.innerHTML = '';
+        showToast('મોબાઈલ નંબર અથવા જન્મવર્ષ (પાસવર્ડ) ખોટો છે.');
       }
+    }
 
-      const verifiedBadge = document.getElementById('modalVerifiedBadge');
-      if (profile.verified) {
-        verifiedBadge.className = 'bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded-full font-bold';
-        verifiedBadge.textContent = 'સમાજ વેરિફાઈડ (Verified)';
+    window.handleAdminLogin = function(event) {
+      event.preventDefault();
+      const user = document.getElementById('adminUser').value.trim();
+      const pass = document.getElementById('adminPass').value.trim();
+
+      if (user === 'admin' && pass === 'vijay321') {
+        currentSession = {
+          role: 'admin',
+          name: 'સમજ એડમિન (Vijay)',
+          phone: 'Admin'
+        };
+        updateAuthUI();
+        closeAdminModal();
+        showToast('એડમિન ડેશબોર્ડ સફળતાપૂર્વક સક્રિય થયું!');
+        renderProfiles(profiles);
       } else {
-        verifiedBadge.className = 'bg-stone-200 text-stone-700 text-[10px] px-2 py-0.5 rounded-full font-bold';
-        verifiedBadge.textContent = 'ચકાસણી ચાલુ (Pending)';
+        showToast('એડમિન યુઝરનેમ અથવા પાસવર્ડ ખોટો છે.');
       }
+    }
 
-      const isGuest = state.auth.role === 'guest';
-      const residenceSection = document.getElementById('modalResidenceSection');
-      const watermarkOverlay = document.getElementById('modalWatermarkOverlay');
-      const watermarkText = document.getElementById('modalWatermarkText');
-      const photoWatermarkTag = document.getElementById('photoWatermarkTag');
+    window.logout = function() {
+      currentSession = null;
+      updateAuthUI();
+      renderProfiles(profiles);
+      showToast('લોગ આઉટ સફળ.');
+    }
 
-      if (isGuest) {
-        document.getElementById('modalDob').textContent = '••••••••••';
-        document.getElementById('modalAge').textContent = `${profile.age} વર્ષ`;
-        document.getElementById('modalMarital').textContent = profile.marital;
-        document.getElementById('modalPhysical').textContent = '••••••••••••';
-        document.getElementById('modalNative').textContent = profile.native;
-        document.getElementById('modalMosal').textContent = '••••••••••••';
+    function updateAuthUI() {
+      const zone = document.getElementById('authHeaderZone');
+      const badge = document.getElementById('activeUserBadge');
 
-        document.getElementById('modalEducation').textContent = '••••••••••••';
-        document.getElementById('modalOccupation').textContent = '••••••••••••';
-        document.getElementById('modalIncome').textContent = '••••••••••••';
-        document.getElementById('modalCaste').textContent = profile.caste;
-        document.getElementById('modalReligion').textContent = profile.religion;
-        document.getElementById('modalCandidateMobile').textContent = '••••••••••';
-
-        document.getElementById('modalFatherName').textContent = '••••••••••••';
-        document.getElementById('modalFatherOcc').textContent = '••••••••••••';
-        document.getElementById('modalMotherName').textContent = '••••••••••••';
-        document.getElementById('modalMotherOcc').textContent = '••••••••••••';
-        document.getElementById('modalBrothers').textContent = '••••••••••••';
-        document.getElementById('modalSisters').textContent = '••••••••••••';
-        document.getElementById('modalTotalMembers').textContent = '••••••••••••';
-
-        watermarkOverlay.classList.add('hidden');
-        photoWatermarkTag.textContent = 'PRAJAPATI SAMAJ';
-
-        residenceSection.className = 'bg-amber-50 border border-amber-200 rounded-xl p-4 text-center';
-        residenceSection.innerHTML = `
-          <div class="w-8 h-8 rounded-full bg-amber-200 text-amber-900 mx-auto flex items-center justify-center mb-1.5">
-            <i class="ph-bold ph-lock text-sm"></i>
-          </div>
-          <h5 class="font-bold text-stone-800 text-xs">રહેઠાણ અને સંપર્ક વિગત સુરક્ષિત છે (Protected)</h5>
-          <p class="text-[11px] text-stone-600 mt-0.5">સરનામું, મોસાળ, પરિવાર અને ફોન નંબર જોવા માટે સક્રિય સભ્ય તરીકે લોગિન કરો.</p>
-          <button onclick="closeDetailsModal(); openMemberLoginModal();" class="mt-2.5 inline-flex items-center space-x-1 bg-brand-700 hover:bg-brand-800 text-white font-semibold text-xs px-3.5 py-1.5 rounded-lg shadow">
-            <i class="ph-bold ph-sign-in"></i>
-            <span>મેમ્બર લોગિન (મોબાઈલ નં. + જન્મ વર્ષ)</span>
+      if (!currentSession) {
+        zone.innerHTML = `
+          <button onclick="openLoginModal()" class="px-3 sm:px-4 py-2 rounded-xl text-xs font-bold bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 transition flex items-center space-x-1.5">
+            <i class="ph-bold ph-sign-in text-sm"></i>
+            <span>સભ્ય લોગઈન</span>
           </button>
         `;
-      } else {
-        document.getElementById('modalDob').textContent = profile.dob || 'અનુલબ્ધ';
-        document.getElementById('modalAge').textContent = `${profile.age} વર્ષ`;
-        document.getElementById('modalMarital').textContent = profile.marital;
-        document.getElementById('modalPhysical').textContent = profile.physical || 'સામાન્ય';
-        document.getElementById('modalNative').textContent = profile.native;
-        document.getElementById('modalMosal').textContent = profile.mosal;
-
-        document.getElementById('modalEducation').textContent = profile.education;
-        document.getElementById('modalOccupation').textContent = profile.occupation;
-        document.getElementById('modalIncome').textContent = profile.income || 'ખાનગી';
-        document.getElementById('modalCaste').textContent = profile.caste;
-        document.getElementById('modalReligion').textContent = profile.religion;
-        document.getElementById('modalCandidateMobile').textContent = profile.mobile;
-
-        document.getElementById('modalFatherName').textContent = profile.fatherName;
-        document.getElementById('modalFatherOcc').textContent = profile.fatherOcc || '--';
-        document.getElementById('modalMotherName').textContent = profile.motherName;
-        document.getElementById('modalMotherOcc').textContent = profile.motherOcc || '--';
-        document.getElementById('modalBrothers').textContent = profile.brothers || 'કોઈ નહીં';
-        document.getElementById('modalSisters').textContent = profile.sisters || 'કોઈ નહીં';
-        document.getElementById('modalTotalMembers').textContent = profile.totalMembers || '--';
-
-        const viewerName = state.auth.memberInfo?.name || 'MEMBER';
-        const viewerPhone = state.auth.memberInfo?.mobile || 'CONFIDENTIAL';
-        
-        watermarkOverlay.classList.remove('hidden');
-        watermarkText.innerHTML = `
-          CONFIDENTIAL • VIEWED BY: ${viewerName.toUpperCase()} [${viewerPhone}]<br>
-          PRAJAPATI MATRIMONY • DO NOT FORWARD OR SCREENSHOT
+        badge.classList.add('hidden');
+      } else if (currentSession.role === 'admin') {
+        zone.innerHTML = `
+          <button onclick="logout()" class="px-3 py-2 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white transition flex items-center space-x-1.5 gujarati-text">
+            <i class="ph-bold ph-sign-out text-sm"></i>
+            <span>એડમિન લૉગઆઉટ</span>
+          </button>
         `;
-        photoWatermarkTag.textContent = `VIEWER: ${viewerPhone}`;
-
-        residenceSection.className = 'bg-emerald-50 border border-emerald-200 rounded-xl p-3.5 space-y-2.5';
-        residenceSection.innerHTML = `
-          <h4 class="font-bold text-emerald-900 text-[11px] uppercase tracking-wider flex items-center gap-1.5 border-b border-emerald-200 pb-1">
-            <i class="ph-bold ph-house-line text-emerald-700"></i>
-            <span>૧. રહેઠાણની વિગત (Residential Details)</span>
-          </h4>
-          
-          <div class="space-y-1 text-xs">
-            <div>
-              <span class="text-stone-500 block text-[10px]">પૂરું સરનામું (Full Address):</span>
-              <span class="font-semibold text-stone-800">${profile.address}</span>
-            </div>
-            ${profile.notes ? `
-              <div class="pt-1">
-                <span class="text-stone-500 block text-[10px]">નોંધ (Notes):</span>
-                <span class="text-stone-700 italic">${profile.notes}</span>
-              </div>
-            ` : ''}
-          </div>
-
-          <div class="pt-2 border-t border-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <div>
-              <span class="text-[10px] uppercase font-bold text-emerald-800 block">સંપર્ક મોબાઈલ નંબર (Contact Phone)</span>
-              <a href="tel:${profile.contactPhone}" class="font-bold text-emerald-950 text-sm hover:underline flex items-center space-x-1 mt-0.5">
-                <i class="ph-bold ph-phone-call"></i>
-                <span>${profile.contactPhone}</span>
-              </a>
-            </div>
-            <a href="https://wa.me/${profile.contactPhone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('જય શ્રી કૃષ્ણ, પ્રજાપતિ મેટ્રિમોની પોર્ટલ પરથી ' + profile.name + ' ના બાયોડેટા બાબતે સંપર્ક કરેલ છે.')}" 
-               target="_blank" 
-               class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center justify-center space-x-1.5 shadow">
-              <i class="ph-bold ph-whatsapp-logo text-base"></i>
-              <span>WhatsApp કરો</span>
-            </a>
-          </div>
+        badge.textContent = `⚡ એડમિન મોડ સક્રિય`;
+        badge.classList.remove('hidden');
+      } else {
+        zone.innerHTML = `
+          <button onclick="logout()" class="px-3 py-2 rounded-xl text-xs font-bold bg-stone-800 hover:bg-stone-700 text-stone-200 border border-stone-700 transition flex items-center space-x-1.5 gujarati-text">
+            <i class="ph-bold ph-sign-out text-sm"></i>
+            <span>લૉગઆઉટ</span>
+          </button>
         `;
+        badge.textContent = `👤 સભ્ય: ${currentSession.name.split(' ')[0]}`;
+        badge.classList.remove('hidden');
       }
-
-      detailsModal.classList.remove('hidden');
-    };
-
-    const biodataForm = document.getElementById('biodataForm');
-    biodataForm.addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      const saveBtn = document.getElementById('saveBiodataBtn');
-      saveBtn.disabled = true;
-      saveBtn.innerHTML = `<i class="ph-bold ph-spinner animate-spin"></i><span>સેવ થઈ રહ્યું છે...</span>`;
-
-      const name = document.getElementById('formName').value.trim();
-      const gender = document.getElementById('formGender').value;
-      const dob = document.getElementById('formDob').value;
-      const age = parseInt(document.getElementById('formAge').value, 10);
-      const marital = document.getElementById('formMarital').value;
-      const education = document.getElementById('formEducation').value.trim();
-      const occupation = document.getElementById('formOccupation').value.trim();
-      const income = document.getElementById('formIncome').value.trim() || 'ખાનગી (Private)';
-      const caste = document.getElementById('formCaste').value.trim() || 'ગુર્જર પ્રજાપતિ';
-      const religion = document.getElementById('formReligion').value.trim() || 'હિન્દુ (Hindu)';
-      const native = document.getElementById('formNative').value.trim();
-      const mosal = document.getElementById('formMosal').value.trim();
-      const physical = document.getElementById('formPhysical').value.trim() || 'સામાન્ય બાંધો';
-      const mobile = document.getElementById('formMobile').value.trim().replace(/[^0-9]/g, '');
-
-      const fatherName = document.getElementById('formFatherName').value.trim();
-      const fatherOcc = document.getElementById('formFatherOcc').value.trim() || 'વેપાર / નોકરી';
-      const motherName = document.getElementById('formMotherName').value.trim();
-      const motherOcc = document.getElementById('formMotherOcc').value.trim() || 'ગૃહિણી';
-      const brothers = document.getElementById('formBrothers').value.trim() || 'કોઈ નહીં';
-      const sisters = document.getElementById('formSisters').value.trim() || 'કોઈ નહીં';
-      const totalMembers = document.getElementById('formTotalMembers').value.trim() || '--';
-
-      const address = document.getElementById('formAddress').value.trim();
-      const contactPhone = document.getElementById('formContactPhone').value.trim();
-      const notes = document.getElementById('formNotes').value.trim();
-
-      const p1 = document.getElementById('previewPhoto1').src;
-      const p2 = document.getElementById('previewPhoto2').src;
-      const p3 = document.getElementById('previewPhoto3').src;
-
-      const photos = [];
-      if (p1) photos.push(p1);
-      if (p2 && !p2.includes('placehold.co')) photos.push(p2);
-      if (p3 && !p3.includes('placehold.co')) photos.push(p3);
-
-      const profileId = 'pj-' + Date.now().toString().slice(-6);
-      const newProfile = {
-        id: profileId,
-        name,
-        gender,
-        dob,
-        age,
-        marital,
-        education,
-        occupation,
-        income,
-        caste,
-        religion,
-        native,
-        mosal,
-        physical,
-        mobile,
-        fatherName,
-        fatherOcc,
-        motherName,
-        motherOcc,
-        brothers,
-        sisters,
-        totalMembers,
-        address,
-        contactPhone,
-        notes,
-        photo: photos[0] || 'https://placehold.co/400x400/f5ebe0/5f1215?text=Photo',
-        photos: photos,
-        verified: state.auth.role === 'admin',
-        createdAt: new Date().toISOString().split('T')[0]
-      };
-
-      const birthYear = dob ? dob.split('-')[0] : '';
-      if (mobile && birthYear) {
-        const autoMember = { mobile, birthYear, name, active: true };
-        if (state.currentUser && db) {
-          try {
-            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'members', mobile), autoMember);
-          } catch (mErr) {
-            console.warn('Member auto-creation notice:', mErr);
-          }
-        }
-      }
-
-      if (state.currentUser && db) {
-        try {
-          const profileDoc = doc(db, 'artifacts', appId, 'public', 'data', 'profiles', profileId);
-          await setDoc(profileDoc, newProfile);
-          showToast(`${name} નો બાયોડેટા ક્લાઉડમાં સેવ થયો!`, 'ph-bold ph-check-circle');
-        } catch (err) {
-          state.profiles.unshift(newProfile);
-          renderProfiles();
-          showToast('સેવ થઈ ગયો (Saved).');
-        }
-      } else {
-        state.profiles.unshift(newProfile);
-        renderProfiles();
-        showToast(`${name} નો બાયોડેટા ઉમેરાઈ ગયો!`);
-      }
-
-      saveBtn.disabled = false;
-      saveBtn.innerHTML = `<i class="ph-bold ph-cloud-arrow-up text-base"></i><span>ક્લાઉડમાં સેવ કરો (Save to Cloud)</span>`;
-
-      closeUploadModal();
-      biodataForm.reset();
-      document.getElementById('previewPhoto1').src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80';
-      document.getElementById('previewPhoto2').src = 'https://placehold.co/200x260/fdf4f4/a81e22?text=Photo+2';
-      document.getElementById('previewPhoto3').src = 'https://placehold.co/200x260/fdf4f4/a81e22?text=Photo+3';
-    });
-
-    window.toggleVerification = async (profileId) => {
-      if (state.auth.role !== 'admin') return;
-      const profile = state.profiles.find(p => p.id === profileId);
-      if (!profile) return;
-      const newStatus = !profile.verified;
-
-      if (state.currentUser && db) {
-        try {
-          const profileDoc = doc(db, 'artifacts', appId, 'public', 'data', 'profiles', profileId);
-          await updateDoc(profileDoc, { verified: newStatus });
-          showToast(`Verification status updated`);
-        } catch (e) {
-          profile.verified = newStatus;
-          renderProfiles();
-        }
-      } else {
-        profile.verified = newStatus;
-        renderProfiles();
-      }
-    };
-
-    window.deleteProfile = async (profileId) => {
-      if (state.auth.role !== 'admin') return;
-      const target = state.profiles.find(p => p.id === profileId);
-      const name = target ? target.name : 'બાયોડેટા';
-
-      if (state.currentUser && db) {
-        try {
-          const profileDoc = doc(db, 'artifacts', appId, 'public', 'data', 'profiles', profileId);
-          await deleteDoc(profileDoc);
-          showToast(`${name} deleted from cloud.`);
-        } catch (e) {
-          state.profiles = state.profiles.filter(p => p.id !== profileId);
-          renderProfiles();
-        }
-      } else {
-        state.profiles = state.profiles.filter(p => p.id !== profileId);
-        renderProfiles();
-      }
-    };
-
-    window.exportDatabase = () => {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
-        profiles: state.profiles,
-        members: state.members,
-        exportedAt: new Date().toISOString()
-      }, null, 2));
-
-      const downloadAnchor = document.createElement('a');
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", `prajapati_matrimony_cloud_${new Date().toISOString().slice(0,10)}.json`);
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
-      showToast('ગ્લોબલ બેકઅપ ફાઈલ ડાઉનલોડ થઈ ગઈ!');
-    };
-
-    document.getElementById('filterGender').addEventListener('change', e => {
-      state.filters.gender = e.target.value;
-      renderProfiles();
-    });
-
-    document.getElementById('filterMarital').addEventListener('change', e => {
-      state.filters.marital = e.target.value;
-      renderProfiles();
-    });
-
-    document.getElementById('filterNative').addEventListener('change', e => {
-      state.filters.native = e.target.value;
-      renderProfiles();
-    });
-
-    document.getElementById('filterSearch').addEventListener('input', e => {
-      state.filters.search = e.target.value.trim();
-      renderProfiles();
-    });
-
-    document.getElementById('resetFilterBtn').addEventListener('click', () => {
-      document.getElementById('filterGender').value = 'all';
-      document.getElementById('filterMarital').value = 'all';
-      document.getElementById('filterNative').value = 'all';
-      document.getElementById('filterSearch').value = '';
-      state.filters = { gender: 'all', marital: 'all', native: 'all', search: '' };
-      renderProfiles();
-      showToast('ફિલ્ટર્સ રીસેટ કર્યા');
-    });
-
-    [memberLoginModal, adminLoginModal, manageMembersModal, uploadModal, detailsModal, photoLightboxModal].forEach(modal => {
-      if (modal) {
-        modal.addEventListener('click', e => {
-          if (e.target === modal) {
-            modal.classList.add('hidden');
-          }
-        });
-      }
-    });
-
-    const openUploadBtn = document.getElementById('openUploadBtn');
-    if (openUploadBtn) {
-      openUploadBtn.addEventListener('click', window.openUploadModal);
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      updateAuthUI();
-      initializeCloudSync();
-    });
+    // DETAIL MODAL & LIGHTBOX
+    window.openDetail = function(id) {
+      const p = profiles.find(item => item.id === id);
+      if (!p) return;
+
+      const isMemberOrAdmin = currentSession && (currentSession.role === 'member' || currentSession.role === 'admin');
+      const isAdmin = currentSession && currentSession.role === 'admin';
+
+      const content = document.getElementById('detailModalContent');
+      
+      let photosHTML = '';
+      p.photos.forEach((ph, idx) => {
+        photosHTML += `
+          <div class="relative h-44 rounded-2xl overflow-hidden bg-stone-950 border border-stone-800 cursor-pointer group" onclick="openLightbox('${ph}')">
+            <img src="${ph}" class="w-full h-full object-cover transition duration-300 group-hover:scale-105">
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-semibold gujarati-text">
+              મોટો ફોટો જુઓ
+            </div>
+          </div>
+        `;
+      });
+
+      content.innerHTML = `
+        <div class="flex items-center space-x-4 border-b border-stone-800 pb-4">
+          <div>
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 gujarati-text">${p.profileType}</span>
+            <h2 class="text-xl sm:text-2xl font-extrabold text-white gujarati-text mt-1">${p.fullName}</h2>
+          </div>
+        </div>
+
+        <!-- Photos Gallery -->
+        <div class="space-y-2">
+          <label class="text-xs font-semibold text-stone-400 uppercase tracking-wider gujarati-text">ફોટો ગેલેરી (ક્લિક કરીને મોટો કરો)</label>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            ${photosHTML}
+          </div>
+        </div>
+
+        <!-- Section 1 -->
+        <div class="space-y-3 bg-stone-950 p-4 rounded-2xl border border-stone-800">
+          <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider gujarati-text">૧. વ્યક્તિગત વિગતો</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-stone-300">
+            <div><strong class="text-stone-400">જન્મ તારીખ:</strong> ${p.dob} (${p.age} વર્ષ)</div>
+            <div><strong class="text-stone-400">શિક્ષણ:</strong> ${p.education}</div>
+            <div><strong class="text-stone-400">વ્યવસાય / નોકરી:</strong> ${p.occupation}</div>
+            <div><strong class="text-stone-400">માસિક આવક:</strong> ${p.monthlyIncome || 'લાગુ નથી'}</div>
+            <div><strong class="text-stone-400">વૈવાહિક સ્થિતિ:</strong> ${p.maritalStatus}</div>
+            <div><strong class="text-stone-400">જાતિ:</strong> ${p.caste}</div>
+            <div><strong class="text-stone-400">મૂળ વતન:</strong> ${p.nativeVillage}</div>
+            <div><strong class="text-stone-400">મોસાળ:</strong> ${p.mosal || '-'}</div>
+            <div><strong class="text-stone-400">ધર્મ:</strong> ${p.religion}</div>
+            <div><strong class="text-stone-400">શારીરિક વિશેષતા:</strong> ${p.physicalAttr || '-'}</div>
+          </div>
+        </div>
+
+        <!-- Section 2 -->
+        <div class="space-y-3 bg-stone-950 p-4 rounded-2xl border border-stone-800">
+          <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider gujarati-text">૨. પરિવારની વિગતો</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-stone-300">
+            <div><strong class="text-stone-400">પિતાનું નામ:</strong> ${p.fatherName} (${p.fatherOcc || '-'})</div>
+            <div><strong class="text-stone-400">માતાનું નામ:</strong> ${p.motherName || '-'} (${p.motherOcc || '-'})</div>
+            <div><strong class="text-stone-400">ભાઈ:</strong> ${p.brothers || '-'}</div>
+            <div><strong class="text-stone-400">બહેન:</strong> ${p.sisters || '-'}</div>
+            <div class="sm:col-span-2"><strong class="text-stone-400">કુલ પરિવાર સભ્યો:</strong> ${p.totalFamily || '-'}</div>
+          </div>
+        </div>
+
+        <!-- Section 3 -->
+        <div class="space-y-3 bg-stone-950 p-4 rounded-2xl border border-stone-800">
+          <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider gujarati-text">૩. રહેઠાણ અને સંપર્ક વિગત</h4>
+          ${isMemberOrAdmin ? `
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-stone-300">
+              <div class="sm:col-span-2"><strong class="text-stone-400">પૂરું સરનામું:</strong> ${p.fullAddress}</div>
+              <div><strong class="text-stone-400">મોબાઈલ નંબર:</strong> <a href="tel:${p.contactPhone}" class="text-amber-400 underline font-bold">${p.contactPhone}</a></div>
+              <div><strong class="text-stone-400">નોંધ:</strong> ${p.notes || '-'}</div>
+            </div>
+            <div class="pt-2 flex space-x-3">
+              <a href="tel:${p.contactPhone}" class="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs text-center transition flex items-center justify-center space-x-1">
+                <i class="ph-bold ph-phone"></i>
+                <span>કૉલ કરો</span>
+              </a>
+              <a href="https://wa.me/91${p.contactPhone}?text=नमस्ते,%20मैंने%20प्रજાપતિ%20મેટ્રિમોની%20પોર્ટલ%20पर%20आपकी%20प्रोफाइल%20देखी%20है।" target="_blank" class="flex-1 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl text-xs text-center transition flex items-center justify-center space-x-1">
+                <i class="ph-bold ph-whatsapp-logo"></i>
+                <span>WhatsApp ચેટ</span>
+              </a>
+            </div>
+          ` : `
+            <div class="p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl text-center space-y-2">
+              <p class="text-xs text-amber-300 gujarati-text font-semibold">સંપર્ક નંબર અને સરનામું જોવા માટે સભ્ય લોગઈન કરો.</p>
+              <button onclick="closeDetailModal(); openLoginModal();" class="px-4 py-2 bg-amber-500 text-stone-950 font-bold rounded-xl text-xs gujarati-text">
+                અહીં ક્લિક કરી લોગઈન કરો
+              </button>
+            </div>
+          `}
+        </div>
+
+        ${isAdmin ? `
+          <div class="pt-4 border-t border-stone-800 flex justify-end">
+            <button onclick="deleteProfile('${p.id}')" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-xs gujarati-text">
+              આ બાયોડેટા ડિલીટ કરો (એડમિન)
+            </button>
+          </div>
+        ` : ''}
+      `;
+
+      document.getElementById('detailModal').classList.remove('hidden');
+    }
+
+    window.closeDetailModal = function() {
+      document.getElementById('detailModal').classList.add('hidden');
+    }
+
+    window.openLightbox = function(url) {
+      const modal = document.getElementById('lightboxModal');
+      const img = document.getElementById('lightboxImg');
+      const watermark = document.getElementById('lightboxWatermark');
+
+      img.src = url;
+      const viewerName = currentSession ? currentSession.name : 'Guest User';
+      watermark.textContent = `CONFIDENTIAL • VIEWED BY: ${viewerName} • PRAJAPATI SAMAJ MATRIMONY`;
+      modal.classList.remove('hidden');
+    }
+
+    window.closeLightbox = function() {
+      document.getElementById('lightboxModal').classList.add('hidden');
+    }
+
+    window.deleteProfile = async function(id) {
+      if (!confirm('શું તમે ખરેખર આ બાયોડેટા ડિલીટ કરવા માંગો છો?')) return;
+      try {
+        if (db) {
+          await deleteDoc(doc(db, "artifacts", "prajapati-matrimony-1", "public", "data", "profiles", id));
+        }
+        profiles = profiles.filter(p => p.id !== id);
+        localStorage.setItem('prajapati_profiles', JSON.stringify(profiles));
+        closeDetailModal();
+        renderProfiles(profiles);
+        showToast('બાયોડેટા સફળતાપૂર્વક ડિલીટ થયો.');
+      } catch (err) {
+        console.error(err);
+        showToast('ડિલીટ કરવામાં ભૂલ આવી.');
+      }
+    }
+
+    window.showToast = function(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.remove('hidden');
+      setTimeout(() => t.classList.add('hidden'), 3500);
+    }
+
+    window.addEventListener('DOMContentLoaded', initFirebase);
   </script>
 </body>
 </html>
