@@ -57,7 +57,7 @@
     <div id="cloudStatusBanner" class="bg-stone-900 border border-stone-800 rounded-xl px-4 py-3 flex items-center justify-between text-xs shadow-md">
       <div class="flex items-center space-x-2 text-stone-400">
         <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-        <span>ક્લાઉડ ડેટાબેઝ: <strong class="text-emerald-400">સક્રિય અને કનેક્ટેડ</strong> (સર્વર સિંક ચાલુ છે)</span>
+        <span>ક્લાઉડ ડેટાબેઝ (Firebase): <strong class="text-emerald-400">કનેક્ટેડ અને સક્રિય</strong></span>
       </div>
       <div id="activeUserBadge" class="hidden text-amber-300 font-mono bg-stone-950 px-2.5 py-1 rounded-lg border border-stone-800"></div>
     </div>
@@ -70,7 +70,7 @@
         <div class="relative z-10 max-w-2xl space-y-3">
           <span class="px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-semibold border border-amber-500/20 inline-block gujarati-text">પ્રજાપતિ સમાજ અધિકૃત પાત્ર શોધ પ્લેટફોર્મ</span>
           <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white gujarati-text">યોગ્ય જીવનસાથીની પસંદગી હવે સરળ અને સુરક્ષિત</h2>
-          <p class="text-xs sm:text-sm text-stone-400 gujarati-text">સમાજના વર અને કન્યાઓની પ્રમાણિત માહિતી સુરક્ષિત રીતે જુઓ. સભ્ય લોગઈન કર્યા બાદ જ ಸಂಪೂರ್ಣ વિગતો જોઈ શકાશે.</p>
+          <p class="text-xs sm:text-sm text-stone-400 gujarati-text">સમાજના વર અને કન્યાઓની પ્રમાણિત માહિતી સુરક્ષિત રીતે જુઓ. સભ્ય લોગઈન કર્યા બાદ જ સંપૂર્ણ વિગતો જોઈ શકાશે.</p>
         </div>
       </div>
 
@@ -82,7 +82,7 @@
           <label class="text-[11px] font-semibold text-stone-400 uppercase tracking-wider gujarati-text">નામ / શિક્ષણ / વ્યવસાય શોધો</label>
           <div class="relative">
             <i class="ph-bold ph-magnifying-glass absolute left-3.5 top-3 text-stone-500"></i>
-            <input type="text" id="filterSearch" oninput="applyFilters()" placeholder="ઉદા. રમેશભાઈ, એન્જિનિયર..." class="w-full bg-stone-950 border border-stone-800 rounded-xl pl-10 pr-4 py-2.5 text-xs text-stone-200 focus:outline-none focus:border-amber-500 transition">
+            <input type="text" id="filterSearch" oninput="applyFilters()" placeholder="ઉદા. પૂજાબેન, એન્જિનિયર..." class="w-full bg-stone-950 border border-stone-800 rounded-xl pl-10 pr-4 py-2.5 text-xs text-stone-200 focus:outline-none focus:border-amber-500 transition">
           </div>
         </div>
 
@@ -131,7 +131,7 @@
           <!-- Section 1: Personal Details -->
           <div class="space-y-4">
             <h3 class="text-sm font-bold text-amber-400 uppercase tracking-wider flex items-center space-x-2 gujarati-text border-l-2 border-amber-500 pl-3">
-              <span>૧. વ્યક્તિગત વિગતો (Personal Details)</span>
+              <span>વ્યક્તિગત વિગતો (Personal Details)</span>
             </h3>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -144,8 +144,8 @@
               </div>
 
               <div class="sm:col-span-2 space-y-1">
-                <label class="text-xs text-stone-400 gujarati-text">પૂરું નામ (નામ અટક સાથે) *</label>
-                <input type="text" name="fullName" required placeholder="ઉદા. પ્રજાપતિ મિત્તલબેન રમેશભાઈ" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500 gujarati-text">
+                <label class="text-xs text-stone-400 gujarati-text">નામ *</label>
+                <input type="text" name="fullName" required placeholder="ઉદા. પ્રજાપતિ પૂજાબેન મુકેશભાઈ" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500 gujarati-text">
               </div>
 
               <div class="space-y-1">
@@ -154,29 +154,29 @@
               </div>
 
               <div class="space-y-1">
-                <label class="text-xs text-stone-400 gujarati-text">ઉંમર (વર્ષ) *</label>
-                <input type="number" id="inputAge" name="age" required placeholder="ઉદા. 24" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+                <label class="text-xs text-stone-400 gujarati-text">ઉંમર *</label>
+                <input type="number" id="inputAge" name="age" required placeholder="ઉદા. 25" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
               </div>
 
               <div class="space-y-1">
                 <label class="text-xs text-stone-400 gujarati-text">જન્મ વર્ષ (પાસવર્ડ માટે) *</label>
-                <input type="number" name="birthYear" required placeholder="ઉદા. 2000" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+                <input type="number" name="birthYear" required placeholder="ઉદા. 2001" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
                 <p class="text-[10px] text-amber-400/80 gujarati-text">આ તમારો સભ્ય લોગઈન પાસવર્ડ બનશે.</p>
               </div>
 
               <div class="space-y-1">
                 <label class="text-xs text-stone-400 gujarati-text">શિક્ષણ *</label>
-                <input type="text" name="education" required placeholder="ઉદા. B.E. Civil / B.Sc / MBA" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+                <input type="text" name="education" required placeholder="ઉદા. B.Com / M.Com" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
               </div>
 
               <div class="space-y-1">
                 <label class="text-xs text-stone-400 gujarati-text">વ્યવસાય / નોકરી *</label>
-                <input type="text" name="occupation" required placeholder="ઉદા. Software Engineer / Business" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+                <input type="text" name="occupation" required placeholder="ઉદા. Accountant / Private Job" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
               </div>
 
               <div class="space-y-1">
                 <label class="text-xs text-stone-400 gujarati-text">માસિક આવક</label>
-                <input type="text" name="monthlyIncome" placeholder="ઉદા. ₹ 50,000 / મહિને" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+                <input type="text" name="monthlyIncome" placeholder="ઉદા. ₹ 35,000 / મહિને" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
               </div>
 
               <div class="space-y-1">
@@ -189,13 +189,13 @@
               </div>
 
               <div class="space-y-1">
-                <label class="text-xs text-stone-400 gujarati-text">જાતિ / જ્ઞાતિ શાખા</label>
+                <label class="text-xs text-stone-400 gujarati-text">જાતિ</label>
                 <input type="text" name="caste" value="પ્રજાપતિ (કુંભાર)" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
               </div>
 
               <div class="space-y-1">
                 <label class="text-xs text-stone-400 gujarati-text">મૂળ વતન *</label>
-                <input type="text" name="nativeVillage" required placeholder="ઉદા. મહેસાણા / ઊંઝા" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+                <input type="text" name="nativeVillage" required placeholder="ઉદા. મહેસાણા" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
               </div>
 
               <div class="space-y-1">
@@ -214,8 +214,8 @@
               </div>
 
               <div class="space-y-1 sm:col-span-2">
-                <label class="text-xs text-stone-400 gujarati-text">શારીરિક વિશેષતા (ઊંચાઈ, રંગ, વજન વગેરે)</label>
-                <input type="text" name="physicalAttr" placeholder="ઉદા. ઊંચાઈ 5'8\", ગોરો રંગ" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+                <label class="text-xs text-stone-400 gujarati-text">શારીરિક વિશેષતા</label>
+                <input type="text" name="physicalAttr" placeholder="ઉદા. ઊંચાઈ 5'4\", ગોરો રંગ" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
               </div>
             </div>
           </div>
@@ -223,23 +223,23 @@
           <!-- Section 2: Family Details -->
           <div class="space-y-4">
             <h3 class="text-sm font-bold text-amber-400 uppercase tracking-wider flex items-center space-x-2 gujarati-text border-l-2 border-amber-500 pl-3">
-              <span>૨. પરિવારની વિગતો (Family Details)</span>
+              <span>પરિવારની વિગતો (Family Details)</span>
             </h3>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div class="space-y-1">
                 <label class="text-xs text-stone-400 gujarati-text">પિતાનું નામ *</label>
-                <input type="text" name="fatherName" required placeholder="ઉદા. રમેશભાઈ પ્રજાપતિ" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+                <input type="text" name="fatherName" required placeholder="ઉદા. મુકેશભાઈ પ્રજાપતિ" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
               </div>
 
               <div class="space-y-1">
                 <label class="text-xs text-stone-400 gujarati-text">પિતાનો વ્યવસાય</label>
-                <input type="text" name="fatherOcc" placeholder="ઉદા. વેપારી / નિવૃત્ત" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+                <input type="text" name="fatherOcc" placeholder="ઉદા. વેપારી" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
               </div>
 
               <div class="space-y-1">
                 <label class="text-xs text-stone-400 gujarati-text">માતાનું નામ</label>
-                <input type="text" name="motherName" placeholder="ઉદા. ગીતાબેન" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+                <input type="text" name="motherName" placeholder="ઉદા. દર્શનાબેન" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
               </div>
 
               <div class="space-y-1">
@@ -248,13 +248,13 @@
               </div>
 
               <div class="space-y-1">
-                <label class="text-xs text-stone-400 gujarati-text">ભાઈ (પરિણીત / અપરિણીત)</label>
+                <label class="text-xs text-stone-400 gujarati-text">ભાઈ</label>
                 <input type="text" name="brothers" placeholder="ઉદા. ૧ ભાઈ (અપરિણીત)" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
               </div>
 
               <div class="space-y-1">
-                <label class="text-xs text-stone-400 gujarati-text">બહેન (પરિણીત / અપરિણીત)</label>
-                <input type="text" name="sisters" placeholder="ઉદા. ૧ બહેન (પરિણીત)" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+                <label class="text-xs text-stone-400 gujarati-text">બહેન</label>
+                <input type="text" name="sisters" placeholder="ઉદા. કોઈ નહીં" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
               </div>
 
               <div class="space-y-1 sm:col-span-2">
@@ -267,13 +267,13 @@
           <!-- Section 3: Residential & Contact Details -->
           <div class="space-y-4">
             <h3 class="text-sm font-bold text-amber-400 uppercase tracking-wider flex items-center space-x-2 gujarati-text border-l-2 border-amber-500 pl-3">
-              <span>૩. રહેઠાણની વિગત (Residential Details)</span>
+              <span>રહેઠાણની વિગત (Residential Details)</span>
             </h3>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div class="space-y-1 sm:col-span-2">
                 <label class="text-xs text-stone-400 gujarati-text">પૂરું સરનામું *</label>
-                <textarea name="fullAddress" required rows="2" placeholder="ઉદા. ૧૨, સોમનાથ સોસાયટી, સ્ટેશન રોડ, મહેસાણા" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500"></textarea>
+                <textarea name="fullAddress" required rows="2" placeholder="ઉદા. ૧૫, અંબાજી સોસાયટી, રેલ્વે સ્ટેશન રોડ, મહેસાણા" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500"></textarea>
               </div>
 
               <div class="space-y-1">
@@ -282,8 +282,8 @@
               </div>
 
               <div class="space-y-1">
-                <label class="text-xs text-stone-400 gujarati-text">નોંધ / વિશેષ માહિતી</label>
-                <input type="text" name="notes" placeholder="ઉદા. કોઈ વિશેષ અપેક્ષા..." class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+                <label class="text-xs text-stone-400 gujarati-text">નોંધ</label>
+                <input type="text" name="notes" placeholder="ઉદા. સંસ્કારી અને પરિવારને સાચવે તેવી કન્યા." class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
               </div>
             </div>
           </div>
@@ -291,14 +291,14 @@
           <!-- Section 4: 3 Photo Upload Spaces -->
           <div class="space-y-4">
             <h3 class="text-sm font-bold text-amber-400 uppercase tracking-wider flex items-center space-x-2 gujarati-text border-l-2 border-amber-500 pl-3">
-              <span>૪. ફોટો અપલોડ (૨-૩ ફોટો સ્પેસ)</span>
+              <span>ફોટો અપલોડ (૨-૩ ફોટો સ્પેસ)</span>
             </h3>
             <p class="text-xs text-stone-400 gujarati-text">તમે તમારા મોબાઈલ કે કોમ્પ્યુટરથી ૩ સુધીના ફોટો અપલોડ કરી શકો છો.</p>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <!-- Photo 1 -->
               <div class="space-y-2 bg-stone-950 p-3 rounded-2xl border border-stone-800 text-center">
-                <label class="text-xs font-semibold text-stone-300 gujarati-text block">મુખ્ય પોર્ટ્રેટ ફોટો ૧ *</label>
+                <label class="text-xs font-semibold text-stone-300 gujarati-text block">મુખ્ય ફોટો ૧ *</label>
                 <div id="preview1Container" class="w-full h-36 bg-stone-900 rounded-xl border border-dashed border-stone-700 flex items-center justify-center overflow-hidden relative">
                   <img id="preview1" src="" class="hidden w-full h-full object-cover">
                   <span id="label1" class="text-[11px] text-stone-500 gujarati-text">ફોટો પસંદ કરો</span>
@@ -308,7 +308,7 @@
 
               <!-- Photo 2 -->
               <div class="space-y-2 bg-stone-950 p-3 rounded-2xl border border-stone-800 text-center">
-                <label class="text-xs font-semibold text-stone-300 gujarati-text block">ફુલ સાઇઝ ફોટો ૨</label>
+                <label class="text-xs font-semibold text-stone-300 gujarati-text block">ફોટો ૨</label>
                 <div id="preview2Container" class="w-full h-36 bg-stone-900 rounded-xl border border-dashed border-stone-700 flex items-center justify-center overflow-hidden relative">
                   <img id="preview2" src="" class="hidden w-full h-full object-cover">
                   <span id="label2" class="text-[11px] text-stone-500 gujarati-text">ફોટો પસંદ કરો</span>
@@ -318,7 +318,7 @@
 
               <!-- Photo 3 -->
               <div class="space-y-2 bg-stone-950 p-3 rounded-2xl border border-stone-800 text-center">
-                <label class="text-xs font-semibold text-stone-300 gujarati-text block">પરિવાર / કેઝ્યુઅલ ફોટો ૩</label>
+                <label class="text-xs font-semibold text-stone-300 gujarati-text block">ફોટો ૩</label>
                 <div id="preview3Container" class="w-full h-36 bg-stone-900 rounded-xl border border-dashed border-stone-700 flex items-center justify-center overflow-hidden relative">
                   <img id="preview3" src="" class="hidden w-full h-full object-cover">
                   <span id="label3" class="text-[11px] text-stone-500 gujarati-text">ફોટો પસંદ કરો</span>
@@ -347,7 +347,7 @@
         શ્રી પ્રજાપતિ સમાજ મેટ્રિમોની વેબ પોર્ટલ &copy; ૨૦૨૬ | સર્વાધિકાર સુરક્ષિત
       </div>
       <div class="flex items-center space-x-4">
-        <button onclick="openAdminModal()" class="text-amber-400 hover:text-amber-300 font-semibold flex items-center space-x-1 gujarati-text">
+        <button onclick="openAdminModal()" class="text-rose-400 hover:text-rose-300 font-semibold flex items-center space-x-1 gujarati-text">
           <i class="ph-bold ph-shield-check text-sm"></i>
           <span>સમાજ એડમિન લોગઈન</span>
         </button>
@@ -380,18 +380,17 @@
 
         <div class="space-y-1">
           <label class="text-xs text-stone-400 gujarati-text">જન્મવર્ષ (પાસવર્ડ)</label>
-          <input type="number" id="loginPass" required placeholder="ઉદા. 2000" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2.5 text-xs text-stone-200 focus:border-amber-500 font-mono">
+          <input type="number" id="loginPass" required placeholder="ઉદા. 2001" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2.5 text-xs text-stone-200 focus:border-amber-500 font-mono">
         </div>
 
         <button type="submit" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-stone-950 font-bold rounded-xl text-xs transition shadow gujarati-text">
-          લોગઈન કરો
+          સભ્ય લોગઈન કરો
         </button>
       </form>
 
       <div class="bg-stone-950 p-3.5 rounded-xl border border-stone-800 space-y-1 text-[11px] text-stone-400">
-        <div class="font-semibold text-amber-400 gujarati-text">ડેમો સભ્ય આઈડી (ટ્રાય કરવા માટે):</div>
-        <div>📱 9825134912 | 🔑 પાસવર્ડ: 2000</div>
-        <div>📱 9428081234 | 🔑 પાસવર્ડ: 1998</div>
+        <div class="font-semibold text-amber-400 gujarati-text">ડેમો સભ્ય આઈડી:</div>
+        <div>📱 9825134912 | 🔑 પાસવર્ડ: 2001</div>
       </div>
     </div>
   </div>
@@ -408,22 +407,22 @@
           <i class="ph-bold ph-shield-star"></i>
         </div>
         <h3 class="text-lg font-bold text-white gujarati-text">સમાજ એડમિન લોગઈન (Admin Panel)</h3>
-        <p class="text-xs text-stone-400 gujarati-text">એડમિન યુઝરનેમ અને પાસવર્ડ દાખલ કરો.</p>
+        <p class="text-xs text-stone-400 gujarati-text">એડમિન આઈડી અને પાસવર્ડ દાખલ કરો.</p>
       </div>
 
       <form onsubmit="handleAdminLogin(event)" class="space-y-4">
         <div class="space-y-1">
-          <label class="text-xs text-stone-400 gujarati-text">એડમિન યુઝરનેમ</label>
-          <input type="text" id="adminUser" required value="admin" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2.5 text-xs text-stone-200 focus:border-amber-500 font-mono">
+          <label class="text-xs text-stone-400 gujarati-text">એડમિન આઈડી (ID)</label>
+          <input type="text" id="adminUser" required value="admin" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2.5 text-xs text-stone-200 focus:border-rose-500 font-mono">
         </div>
 
         <div class="space-y-1">
-          <label class="text-xs text-stone-400 gujarati-text">એડમિન પાસવર્ડ</label>
-          <input type="password" id="adminPass" required value="vijay321" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2.5 text-xs text-stone-200 focus:border-amber-500 font-mono">
+          <label class="text-xs text-stone-400 gujarati-text">એડમિન પાસવર્ડ (Password)</label>
+          <input type="password" id="adminPass" required value="vijay321" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2.5 text-xs text-stone-200 focus:border-rose-500 font-mono">
         </div>
 
         <button type="submit" class="w-full py-3 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-xs transition shadow gujarati-text">
-          એડમિન ડેશબોર્ડ ખોલો
+          એડમિન લોગઈન કરો
         </button>
       </form>
     </div>
@@ -475,7 +474,7 @@
     let currentSession = null; // { role: 'guest'|'member'|'admin', name, phone }
     let uploadedImages = { 1: '', 2: '', 3: '' };
 
-    // Seed 5 Demo Profiles
+    // 5 Seed Profiles
     const seedProfiles = [
       {
         id: 'praj_demo_1',
@@ -514,7 +513,7 @@
         age: '28',
         birthYear: '1998',
         education: 'B.E. Mechanical Engineer',
-        occupation: 'Design Engineer (MNC)',
+        occupation: 'Design Engineer',
         monthlyIncome: '₹ 75,000 / મહિને',
         maritalStatus: 'અપરિણીત',
         caste: 'પ્રજાપતિ',
@@ -533,7 +532,7 @@
         fullAddress: '૪૨, શિવઘામ સોસાયટી, નરોડા રોડ, અમદાવાદ',
         contactPhone: '9428081234',
         notes: 'અમદાવાદ સ્થિત પોતાના મકાનમાં રહીએ છીએ.',
-        photos: ['https://placehold.co/600x800/1c1917/f59e0b?text=Jaimin+Prajapati+1', 'https://placehold.co/600x800/292524/f59e0b?text=Jaimin+Family+2']
+        photos: ['https://placehold.co/600x800/1c1917/f59e0b?text=Jaimin+Prajapati+1']
       },
       {
         id: 'praj_demo_3',
@@ -542,7 +541,7 @@
         dob: '2002-12-05',
         age: '23',
         birthYear: '2002',
-        education: 'B.Sc IT / MCA Running',
+        education: 'B.Sc IT / MCA',
         occupation: 'Software Developer',
         monthlyIncome: '₹ 45,000 / મહિને',
         maritalStatus: 'અપરિણીત',
@@ -556,7 +555,7 @@
         fatherOcc: 'કોન્ટ્રાક્ટર',
         motherName: 'પુષ્પાબેન',
         motherOcc: 'શિક્ષિકા',
-        brothers: '૧ ભાઈ (ભણે છે)',
+        brothers: '૧ ભાઈ',
         sisters: '૧ બહેન',
         totalFamily: '૫ સભ્યો',
         fullAddress: '૭૮, સેક્ટર-૨૪, ગાંધીનગર',
@@ -571,7 +570,7 @@
         dob: '1996-03-11',
         age: '30',
         birthYear: '1996',
-        education: 'Diploma in Civil & Builder',
+        education: 'Diploma in Civil',
         occupation: 'Construction & Real Estate',
         monthlyIncome: '₹ 1,20,000 / મહિને',
         maritalStatus: 'અપરિણીત',
@@ -585,7 +584,7 @@
         fatherOcc: 'બિલ્ડર અને વેપારી',
         motherName: 'મંજુલાબેન',
         motherOcc: 'ગૃહિણી',
-        brothers: '૨ ભાઈ (બિઝનેસમાં સાથે)',
+        brothers: '૨ ભાઈ',
         sisters: 'કોઈ નહીં',
         totalFamily: '૬ સભ્યો',
         fullAddress: 'હેમચંદ્રાચાર્ય રોડ, પાટણ',
@@ -601,7 +600,7 @@
         age: '26',
         birthYear: '2000',
         education: 'GNM Nursing',
-        occupation: 'Staff Nurse (Hospital)',
+        occupation: 'Staff Nurse',
         monthlyIncome: '₹ 30,000 / મહિને',
         maritalStatus: 'અપરિણીત',
         caste: 'પ્રજાપતિ',
@@ -633,7 +632,7 @@
         console.log("Firebase connected successfully.");
         await fetchProfilesFromCloud();
       } catch (err) {
-        console.warn("Firebase cloud connection fallback to local storage:", err);
+        console.warn("Firebase connection fallback:", err);
         loadLocalFallback();
       }
     }
@@ -642,7 +641,6 @@
       try {
         const querySnapshot = await getDocs(collection(db, "artifacts", "prajapati-matrimony-1", "public", "data", "profiles"));
         if (querySnapshot.empty) {
-          // Seed demo profiles into cloud
           for (let p of seedProfiles) {
             await setDoc(doc(db, "artifacts", "prajapati-matrimony-1", "public", "data", "profiles", p.id), p);
           }
@@ -671,7 +669,6 @@
       renderProfiles(profiles);
     }
 
-    // Global Exposure
     window.switchTab = function(tab) {
       if (tab === 'explore') {
         document.getElementById('tabExplore').classList.remove('hidden');
@@ -773,7 +770,7 @@
         renderProfiles(profiles);
       } catch (err) {
         console.error("Save error:", err);
-        showToast('સબમિટ કરવામાં ભૂલ આવી. ફરી પ્રયાસ કરો.');
+        showToast('સબમિટ કરવામાં ભૂલ આવી.');
       }
     }
 
@@ -911,7 +908,7 @@
         showToast('એડમિન ડેશબોર્ડ સફળતાપૂર્વક સક્રિય થયું!');
         renderProfiles(profiles);
       } else {
-        showToast('એડમિન યુઝરનેમ અથવા પાસવર્ડ ખોટો છે.');
+        showToast('એડમિન આઈડી અથવા પાસવર્ડ ખોટો છે.');
       }
     }
 
@@ -995,7 +992,7 @@
 
         <!-- Section 1 -->
         <div class="space-y-3 bg-stone-950 p-4 rounded-2xl border border-stone-800">
-          <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider gujarati-text">૧. વ્યક્તિગત વિગતો</h4>
+          <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider gujarati-text">વ્યક્તિગત વિગતો</h4>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-stone-300">
             <div><strong class="text-stone-400">જન્મ તારીખ:</strong> ${p.dob} (${p.age} વર્ષ)</div>
             <div><strong class="text-stone-400">શિક્ષણ:</strong> ${p.education}</div>
@@ -1012,7 +1009,7 @@
 
         <!-- Section 2 -->
         <div class="space-y-3 bg-stone-950 p-4 rounded-2xl border border-stone-800">
-          <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider gujarati-text">૨. પરિવારની વિગતો</h4>
+          <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider gujarati-text">પરિવારની વિગતો</h4>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-stone-300">
             <div><strong class="text-stone-400">પિતાનું નામ:</strong> ${p.fatherName} (${p.fatherOcc || '-'})</div>
             <div><strong class="text-stone-400">માતાનું નામ:</strong> ${p.motherName || '-'} (${p.motherOcc || '-'})</div>
@@ -1024,7 +1021,7 @@
 
         <!-- Section 3 -->
         <div class="space-y-3 bg-stone-950 p-4 rounded-2xl border border-stone-800">
-          <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider gujarati-text">૩. રહેઠાણ અને સંપર્ક વિગત</h4>
+          <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider gujarati-text">રહેઠાણની વિગત</h4>
           ${isMemberOrAdmin ? `
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-stone-300">
               <div class="sm:col-span-2"><strong class="text-stone-400">પૂરું સરનામું:</strong> ${p.fullAddress}</div>
@@ -1036,7 +1033,7 @@
                 <i class="ph-bold ph-phone"></i>
                 <span>કૉલ કરો</span>
               </a>
-              <a href="https://wa.me/91${p.contactPhone}?text=नमस्ते,%20मैंने%20प्रજાપતિ%20મેટ્રિમોની%20પોર્ટલ%20पर%20आपकी%20प्रोफाइल%20देखी%20है।" target="_blank" class="flex-1 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl text-xs text-center transition flex items-center justify-center space-x-1">
+              <a href="https://wa.me/91${p.contactPhone}?text=नमस्ते,%20मैंने%20प्रજાપતિ%20મેટ્રિમોની%20पोर्टल%20पर%20आपकी%20प्रोफाइल%20देखी%20है।" target="_blank" class="flex-1 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl text-xs text-center transition flex items-center justify-center space-x-1">
                 <i class="ph-bold ph-whatsapp-logo"></i>
                 <span>WhatsApp ચેટ</span>
               </a>
