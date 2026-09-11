@@ -57,7 +57,7 @@
     <div id="cloudStatusBanner" class="bg-stone-900 border border-stone-800 rounded-xl px-4 py-3 flex items-center justify-between text-xs shadow-md">
       <div class="flex items-center space-x-2 text-stone-400">
         <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-        <span>ક્લાઉડ ડેટાબેઝ (Firebase Firestore): <strong class="text-emerald-400">કનેક્ટેડ અને સક્રિય</strong></span>
+        <span>ક્લાઉડ ડેટાબેઝ (Firebase Firestore): <strong class="text-emerald-400" id="dbStatusText">કનેક્ટેડ અને સક્રિય</strong></span>
       </div>
       <div id="activeUserBadge" class="hidden text-amber-300 font-mono bg-stone-950 px-2.5 py-1 rounded-lg border border-stone-800"></div>
     </div>
@@ -117,7 +117,6 @@
       </div>
     </div>
 
-    <!-- TAB 2: REGISTER / UPLOAD BIODATA FORM -->
     <div id="tabRegister" class="hidden max-w-4xl mx-auto space-y-6">
       <div class="bg-stone-900 border border-stone-800 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-8">
         
@@ -215,7 +214,7 @@
 
               <div class="space-y-1 sm:col-span-2">
                 <label class="text-xs text-stone-400 gujarati-text">શારીરિક વિશેષતા</label>
-                <input type="text" name="physicalAttr" placeholder="ઉદા. ઊંચાઈ 5'4\", ગોરો રંગ" class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
+                <input type="text" name="physicalAttr" placeholder='ઉદા. ઊંચાઈ 5&apos;4", ગોરો રંગ' class="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-stone-200 focus:border-amber-500">
               </div>
             </div>
           </div>
@@ -491,7 +490,7 @@
         mosal: 'વિસનગર',
         mobileNumber: '9825134912',
         religion: 'હિન્દુ',
-        physicalAttr: 'ઊંચાઈ 5\'4", ગોરો રંગ',
+        physicalAttr: "ઊંચાઈ 5'4\", ગોરો રંગ",
         fatherName: 'મુકેશભાઈ પ્રજાપતિ',
         fatherOcc: 'વેપારી',
         motherName: 'દર્શનાબેન',
@@ -520,7 +519,7 @@
         mosal: 'કલોલ',
         mobileNumber: '9428081234',
         religion: 'હિન્દુ',
-        physicalAttr: 'ઊંચાઈ 5\'10", એથ્લેટિક બાંધો',
+        physicalAttr: "ઊંચાઈ 5'10\", એથ્લેટિક બાંધો",
         fatherName: 'રમેશભાઈ પ્રજાપતિ',
         fatherOcc: 'સરકારી નોકરી',
         motherName: 'કોકિલાબેન',
@@ -549,7 +548,7 @@
         mosal: 'અડાલજ',
         mobileNumber: '9723311223',
         religion: 'હિન્દુ',
-        physicalAttr: 'ઊંચાઈ 5\'3", આકર્ષક વ્યક્તિત્વ',
+        physicalAttr: "ઊંચાઈ 5'3\", આકર્ષક વ્યક્તિત્વ",
         fatherName: 'દિનેશભાઈ પ્રજાપતિ',
         fatherOcc: 'કોન્ટ્રાક્ટર',
         motherName: 'પુષ્પાબેન',
@@ -578,7 +577,7 @@
         mosal: 'સಿದ್ದપુર',
         mobileNumber: '9925544332',
         religion: 'હિન્દુ',
-        physicalAttr: 'ઊંચાઈ 5\'9", સ્વસ્થ બાંધો',
+        physicalAttr: "ઊંચાઈ 5'9\", સ્વસ્થ બાંધો",
         fatherName: 'અશ્વિનભાઈ પ્રજાપતિ',
         fatherOcc: 'બિલ્ડર અને વેપારી',
         motherName: 'મંજુલાબેન',
@@ -607,7 +606,7 @@
         mosal: 'આણંદ',
         mobileNumber: '9898112233',
         religion: 'હિન્દુ',
-        physicalAttr: 'ઊંચાઈ 5\'2", સરળ સ્વભાવ',
+        physicalAttr: "ઊંચાઈ 5'2\", સરળ સ્વભાવ",
         fatherName: 'જગદીશભાઈ પ્રજાપતિ',
         fatherOcc: 'પ્રાઇવેટ નોકરી',
         motherName: 'ભાવનાબેન',
@@ -632,6 +631,7 @@
         await fetchProfilesFromCloud();
       } catch (err) {
         console.warn("Firebase connection fallback:", err);
+        document.getElementById('dbStatusText').textContent = "લોકલ બેકઅપ મોડ (Local Mode)";
         loadLocalFallback();
       }
     }
@@ -769,7 +769,12 @@
         renderProfiles(profiles);
       } catch (err) {
         console.error("Save error:", err);
-        showToast('બાયોડેટા સેવ કરવામાં ભૂલ આવી.');
+        profiles.unshift(newProfile);
+        localStorage.setItem('prajapati_profiles', JSON.stringify(profiles));
+        showToast('બાયોડેટા લોકલ સેવ થયો.');
+        form.reset();
+        switchTab('explore');
+        renderProfiles(profiles);
       }
     }
 
@@ -962,7 +967,7 @@
       const content = document.getElementById('detailModalContent');
       
       let photosHTML = '';
-      p.photos.forEach((ph, idx) => {
+      p.photos.forEach((ph) => {
         photosHTML += `
           <div class="relative h-44 rounded-2xl overflow-hidden bg-stone-950 border border-stone-800 cursor-pointer group" onclick="openLightbox('${ph}')">
             <img src="${ph}" class="w-full h-full object-cover transition duration-300 group-hover:scale-105">
