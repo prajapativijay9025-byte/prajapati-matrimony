@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firebase Diagnostics - Prajapati Matrimony</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body class="bg-stone-950 text-stone-100 min-h-screen flex items-center justify-center p-4">
+
+  <div class="max-w-md w-full bg-stone-900 border border-stone-800 rounded-2xl p-6 shadow-2xl space-y-6">
+    <div class="text-center space-y-2">
+      <div class="w-14 h-14 bg-amber-500/10 text-amber-400 rounded-full flex items-center justify-center mx-auto text-2xl font-bold border border-amber-500/20">
+        <i class="ph-bold ph-database"></i>
+      </div>
+      <h1 class="text-xl font-bold tracking-tight">Firebase Cloud Diagnostics</h1>
+      <p class="text-xs text-stone-400">Testing connection for project: <strong class="text-amber-300">prajapati-matrimony-1</strong></p>
+    </div>
+
+    <!-- Status Box -->
+    <div id="statusCard" class="bg-stone-950 border border-stone-800 rounded-xl p-4 space-y-3 text-xs">
+      <div class="flex items-center justify-between">
+        <span class="text-stone-400">1. Firebase App Init:</span>
+        <span id="statusInit" class="font-mono px-2 py-0.5 rounded bg-stone-800 text-stone-300">Testing...</span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span class="text-stone-400">2. Anonymous Auth:</span>
+        <span id="statusAuth" class="font-mono px-2 py-0.5 rounded bg-stone-800 text-stone-300">Waiting...</span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span class="text-stone-400">3. Firestore Database Read:</span>
+        <span id="statusRead" class="font-mono px-2 py-0.5 rounded bg-stone-800 text-stone-300">Waiting...</span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span class="text-stone-400">4. Firestore Database Write:</span>
+        <span id="statusWrite" class="font-mono px-2 py-0.5 rounded bg-stone-800 text-stone-300">Waiting...</span>
+      </div>
+    </div>
+
+    <!-- Live Output Log -->
+    <div class="space-y-1.5">
+      <label class="text-[11px] font-semibold text-stone-400 uppercase tracking-wider">Diagnostic Log Output:</label>
+      <div id="logOutput" class="bg-black/80 font-mono text-[11px] text-emerald-400 p-3 rounded-xl border border-stone-800 h-36 overflow-y-auto space-y-1">
+        <div>[System] Initializing test sequence...</div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="space-y-2">
+      <button onclick="runTestSequence()" class="w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-stone-950 font-bold rounded-xl text-xs transition shadow">
+        Run Cloud Connection Test Again
+      </button>
+      <a href="index.html" id="launchMainAppBtn" class="hidden w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition text-center block">
+        Database Connected! Launch Matrimony App &rarr;
+      </a>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBMl_SRFpPdnPnh6sjzdbwbJEfUdxuuwFw",
+      authDomain: "prajapati-matrimony-1.firebaseapp.com",
+      projectId: "prajapati-matrimony-1",
+      storageBucket: "prajapati-matrimony-1.firebasestorage.app",
+      messagingSenderId: "549815639052",
+      appId: "1:549815639052:web:0df07805b0e16f17466229",
+      measurementId: "G-JMJC0DJ3H5"
+    };
+
+    const logEl = document.getElementById('logOutput');
+    function log(msg, type = 'info') {
+      const time = new Date().toLocaleTimeString();
+      const color = type === 'error' ? 'text-rose-400' : (type === 'success' ? 'text-emerald-400' : 'text-amber-300');
+      logEl.innerHTML += `<div class="${color}">[${time}] ${msg}</div>`;
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    async function runTestSequence() {
+      log('Starting Firebase connection diagnostic...', 'info');
+      
+      // 1. Init App
+      let app, auth, db;
+      try {
+        app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        db = getFirestore(app);
+        document.getElementById('statusInit').textContent = 'SUCCESS';
+        document.getElementById('statusInit').className = 'font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800';
+        log('Firebase App initialized successfully.', 'success');
+      } catch (err) {
+        document.getElementById('statusInit').textContent = 'FAILED';
+        document.getElementById('statusInit').className = 'font-mono px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800';
+        log(`Init Error: ${err.message}`, 'error');
+        return;
+      }
+
+      // 2. Auth Test
+      try {
+        log('Attempting Anonymous Authentication sign-in...', 'info');
+        const userCred = await signInAnonymously(auth);
+        document.getElementById('statusAuth').textContent = 'SUCCESS (' + userCred.user.uid.slice(0,6) + '...)';
+        document.getElementById('statusAuth').className = 'font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800';
+        log(`Authenticated as anonymous user: ${userCred.user.uid}`, 'success');
+      } catch (err) {
+        document.getElementById('statusAuth').textContent = 'FAILED';
+        document.getElementById('statusAuth').className = 'font-mono px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800';
+        log(`Auth Error: ${err.message} (Did you enable Anonymous Auth in Firebase Console?)`, 'error');
+        return;
+      }
+
+      // 3. Firestore Write Test
+      const appId = 'prajapati-matrimony-1';
+      const testDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'diagnostics', 'test_connection');
+      try {
+        log('Testing Firestore WRITE operation...', 'info');
+        await setDoc(testDocRef, {
+          lastChecked: new Date().toISOString(),
+          status: 'Online and operational'
+        });
+        document.getElementById('statusWrite').textContent = 'SUCCESS';
+        document.getElementById('statusWrite').className = 'font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800';
+        log('Firestore WRITE test passed successfully!', 'success');
+      } catch (err) {
+        document.getElementById('statusWrite').textContent = 'FAILED';
+        document.getElementById('statusWrite').className = 'font-mono px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800';
+        log(`Firestore Write Error: ${err.message} (Did you create your Firestore Database in test mode?)`, 'error');
+        return;
+      }
+
+      // 4. Firestore Read Test
+      try {
+        log('Testing Firestore READ operation...', 'info');
+        const snap = await getDoc(testDocRef);
+        if (snap.exists()) {
+          document.getElementById('statusRead').textContent = 'SUCCESS';
+          document.getElementById('statusRead').className = 'font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800';
+          log('Firestore READ test passed! Data retrieved: ' + JSON.stringify(snap.data()), 'success');
+          
+          // Enable launcher button
+          document.getElementById('launchMainAppBtn').classList.remove('hidden');
+          log('All diagnostics passed! Database is fully ready.', 'success');
+        } else {
+          throw new Error('Document written but could not be read back.');
+        }
+      } catch (err) {
+        document.getElementById('statusRead').textContent = 'FAILED';
+        document.getElementById('statusRead').className = 'font-mono px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800';
+        log(`Firestore Read Error: ${err.message}`, 'error');
+      }
+    }
+
+    window.runTestSequence = runTestSequence;
+    window.addEventListener('DOMContentLoaded', runTestSequence);
+  </script>
+</body>
+</html>
